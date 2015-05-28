@@ -90,7 +90,8 @@ git diff –staged (shows differences)
 git commit -m, git status, git log
 git commit workflow
 Socrative question 2
-EXPLORING HISTORY
+
+####EXPLORING HISTORY
 Objectives: identify and use Git commit numbers, compare versions, restore old versions
 
 compare different versions of commits
@@ -106,7 +107,7 @@ git checkout XXX mars.txt
 remember that you want changes before most recent commit 
 Socrative question3
 
-IGNORING THINGS
+####IGNORING THINGS
 Objectives: ignore some files, why ignoring is useful
 
 sometimes backup files are created by other programs, or intermediate files we don't want to track
@@ -119,9 +120,7 @@ git add .gitignore, git commit -m “add ignore file”, git status
 git add a.dat: error
 git status --ignored
 
-
-
-REMOTES IN GITHUB
+####REMOTES IN GITHUB
 Objectives: explain why remote repos, clone remote repos, push/pull
 
 Github is cool because collaboration!
@@ -137,7 +136,7 @@ now send local changes to remote repo: git push origin master
 check remote repo, changes should be there.
 create README file and add brief comment about the purpose of the materials, commit change, go back to terminal: git pull origin master
 
-COLLABORATING
+####COLLABORATING
 Objectives: collaborate pushing to common repo
 
 pair up students
@@ -146,7 +145,7 @@ partner should cd to another directory (Desktop) and make copy of partner's repo
 collaborator should make changes, add, commit, git push origin master
 original owner can pull changes onto their machine
 
-CONFLICTS
+####CONFLICTS
 Objectives: explain when conflicts occur, resolve conflicts from a merge
 
 each partner adds a (different) line to mars.txt, adds, commits, pushes to github
@@ -162,22 +161,22 @@ explain forking: making own copy of a repo that isn't owned by you
 make changes to one of the countries
 submit pull request to original owner
 
-OPEN SCIENCE
+####OPEN SCIENCE
 can use version control as electronic lab notebook for computational work
 more open means more citation and reuse
 
-HOSTING
+####HOSTING
 where to put code and data?
 can do this yourself by purchasing domain and paying ISP to host
 can also use public service
 includes web interface, plus other functionalities: ability to collaborate, get DOI, academic folks can get free private repos for education 
 
-LICENSING
+####LICENSING
 adding license and citation info
 choosing licenses
 licensing vs. social expectations
 
-WRAPPING UP
+####WRAPPING UP
 sticky notes for summary
 link to materials on GitHub: http://software-carpentry.org/lessons.html 
 reminders about hosting other workshops, becoming an instructor
