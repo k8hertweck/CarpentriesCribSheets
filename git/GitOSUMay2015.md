@@ -1,77 +1,81 @@
-Before class:
-set up shell:
-enlarge text size
-export PS1='$ '
-export PROMPT_COMMAND="history 1 >> ~/Dropbox/UnixHistory.txt"
-check software installation for git AND account with GitHub
-need proxy?
-get slides setup
-remind students to register for GitHub account
+##Software Carpentry Unix Instructor Crib Sheet
+####Oklahoma State University, May 2015
+####Kate L Hertweck, University of Texas at Tyler
 
-Reources
-class website: http://ouinformatics.github.io/2015-05-27-osu 
-etherpad: https://etherpad.mozilla.org/2015-05-27-osu
-Kate's history: https://www.dropbox.com/s/nvpwfcrjgen60z4/GitHistory.txt?dl=0 
-Git for beginners: http://stackoverflow.com/questions/315911/git-for-beginners-the-definitive-practical-guide 
-fixing detached head: http://stackoverflow.com/questions/10228760/fix-a-git-detached-head 
+####Before class:
+* set up shell:
+	* enlarge text size
+	* `export PS1='$ '`
+	* `export PROMPT_COMMAND="history 1 >> ~/Dropbox/GitHistory.txt"`
+* check software installation for git AND account with GitHub
+* need proxy?
+* get slides setup
+* remind students to register for GitHub account
+
+####Reources
+* class website: http://ouinformatics.github.io/2015-05-27-osu 
+* etherpad: https://etherpad.mozilla.org/2015-05-27-osu
+* Kate's history: https://www.dropbox.com/s/nvpwfcrjgen60z4/GitHistory.txt?dl=0 
+* Git for beginners: http://stackoverflow.com/questions/315911/git-for-beginners-the-definitive-practical-guide 
+* fixing detached head: http://stackoverflow.com/questions/10228760/fix-a-git-detached-head 
 	
-SETUP
-Objectives: get system set up for proper attribution of your work
+####SETUP
+**Objectives:** get system set up for proper attribution of your work
 
-Slides: run locally, Git.pdf
+* Slides: run locally, Git.pdf
+* open shell, can be anywhere
+* specify your name, to be recorded in commits
+* `git config --global user.name "k8hertweck"`
+	* specify your email, to be recorded in commits
+* `git config --global user.email "k8hertweck@gmail.com"`
+	* specify text editor, to be used in committing
+	* nano: `git config --global core.editor "nano -w"`
+	* text wrangler: `git config --global core.editor "edit -w"`
+	* notepad++: `git config --global core.editor "'c:/program files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"`
+	* kate: `git config --global core.editor "kate"`
+* `--global` means will apply for every command entered afterward
+* check settings: `git config –list`
+* syntax for git: `git VERB`	
 
-open shell, can be anywhere
-specify your name, to be recorded in commits
-git config --global user.name "k8hertweck"
-specify your email, to be recorded in commits
-git config --global user.email "k8hertweck@gmail.com"
-specify text editor, to be used in committing
-nano: git config --global core.editor "nano -w"
-text wrangler: git config --global core.editor "edit -w"
-notepad++: git config --global core.editor "'c:/program files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
-kate: git config --global core.editor "kate"
---global means will apply for every command entered afterward
-check settings: git config –list
-syntax for git: git VERB	
+####CREATING A REPO (WORKING LOCALLY)
+**Objectives:** start tracking versions in a particular folder/directory (repository)
 
-CREATING A REPO (WORKING LOCALLY)
-Objectives: start tracking versions in a particular folder/directory (repository)
+* start in home directory
+* create directory and change directories
+* `mkdir planets`
+* `cd planets`
+* tell git where to store old records and versions of file
+	* `git init`
+* list contents: `ls`
+* list everything (including hidden files)
+	* `ls -a`
+* result is a subdirectory with information about project
+* if this is removed, we don't have access to versioning anymore
+* ask status of project
+* `git status`
+* output also adds helpful comments
+* Socrative question 1
 
-start in home directory
-create directory and change directories
-mkdir planets
-cd planets
-tell git where to store old records and versions of file
-git init
-list contents: ls
-list everything (including hidden files)
-ls -a
-result is a subdirectory with information about project
-if this is removed, we don't have access to versioning anymore
-ask status of project
-git status
-output also adds helpful comments
-Socrative question 1
+####TRACKING CHANGES: 
+**Objectives:** practice workflow (modify-add-commit), explain where information is stored
 
-TRACKING CHANGES: 
-Objectives: practice workflow (modify-add-commit), explain where information is stored
-
-create new file: nano mars.txt
-copy and add text, exit and save, ls, cat mars.txt
-show status of project: git status
-draw attention to "untracked files": there's something not being tracked
-add file: git add mars.txt
-git status, draw attention to "Changes to be committed": it's tracking, but the changes aren't recorded
-commit file: git commit -m "creating script"
-commits record to history in .git, called a revision, with short identifier
-run without -m and will open editor to add comment (you've specified your preference earlier today)
-good commits: brief (<50 characters), for more info, add empty line (adds in separate field)
-git status
-check history: git log
-lists all revisions in reverse chronological order: full identifier (relate to short identifier, same initial characters), when created, log message
-make another change (this is just one way): nano mars.txt, cat mars.txt
-check status: git status
-look at differences: git diff
+* create new file: nano mars.txt
+* copy and add text, exit and save, `ls`, `cat mars.txt`
+* show status of project: `git status`
+	* draw attention to "untracked files": there's something not being tracked
+* add file: `git add mars.txt`
+* `git status` draw attention to "Changes to be committed": it's tracking, but the changes aren't recorded
+* commit file: `git commit -m "creating script"`
+	* commits record to history in .git, called a revision, with short identifier
+	* run without -m and will open editor to add comment (you've specified your preference earlier today)
+	* good commits: brief (<50 characters), for more info, add empty line (adds in separate field)
+* `git status`
+* check history: `git log`
+	* lists all revisions in reverse chronological order: full identifier (relate to short identifier, same initial characters),
+	* when created, log message
+* make another change (this is just one way): `nano mars.txt`, `cat mars.txt`
+* check status: `git status`
+* look at differences: `git diff`
 first line: old and new version of files, similar to diff command in Unix
 second line: labels for revisions
 third and fourth: name of file changing
