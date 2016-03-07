@@ -1,23 +1,23 @@
-##Data Carpentry R Instructor Crib Sheet
-####Kate L Hertweck, University of Texas at Tyler
+## Data Carpentry R Instructor Crib Sheet
+### Kate L Hertweck, University of Texas at Tyler
 
-####Before class (instructor):
+### Before class (instructor):
 * set up RStudio
 * set up Socrative questions 
 	* teacher room: PAW5AYWM
   	* start quiz, teacher paced, disable student names
 * put history in accessible place for students (e.g., Dropbox)
 
-####Checklist for class (student resources):
+### Checklist for class (student resources):
 * class website: XXX
 * etherpad: XXX
 * Kate's history: XXX
 * installed software: R and RStudio
 
-####BEFORE WE START
+## BEFORE WE START
 * **Objectives**: Learn why R, intro to RStudio, file hierarchy, R syntax, get help
 
-###Basics of R
+### Basics of R
 
 * R is a useful tool for both statistics and data science
 * why R?
@@ -26,7 +26,7 @@
 	* active community, especially among scientists
 	* lots of code already written (and available for reuse!) for many different types of analyses
 
-###Intro to R and RStudio
+### Intro to R and RStudio
 
 * RStudio is just a handy interface to work with R (some folks may have used the regular R console already)
 	* R works the same, regardless of whether you're using the R console, R GUI, or RStudio
@@ -37,7 +37,7 @@
 	* answer appears in console
 	* if you see a `+` instead of the command prompt, R is expecting you to finish the previous command. This is probably an error caused by missing parentheses, quotation marks, etc. You can try entering one of those symbols until an error message appears, or hit `esc` (although sometimes that makes RStudio crash)
 	
-###Setting up a project
+### Setting up a project
 
 * get project set up
 	* File -> New Project -> New directory -> Empty project, name `data-carpentry`, creates a few files to that will make managing your work easier, some windows may change
@@ -49,7 +49,7 @@
 	* bottom right: lots of things! file hierarchy, plots, packages, help
 	* everything can be resized or minimized
 
-###Functions and arguments
+### Functions and arguments
 * start modeling saving commands in R script and executing with keyboard shortcut into console
 * `#` is a comment in R; anything to the right on line not executed by console (just printed out)
 * link to other keyboard shortcuts 
@@ -60,20 +60,20 @@
 * apply this argument for this function: `round(3.14159, digits=2)
 * names and order can be important: if not named, need to be in right order, if named, can put in any order: `round(digits=2, x=3.14159)`
 
-###Organizing working directory
+### Organizing working directory
 * original data in `data/`
 * intermediate datasets in `data_output/`
 * figures in `figure_output/`
 
-###Getting help
+### Getting help
 * `??kruskal` to search throughout help for all functions
 * `sessionInfo()` to find information about how R is set up for you.
 * online resources
 
-####INTRO TO R
+## INTRO TO R
 * **Objectives**: expand knowledge of R syntax, objects/assignments, vector/data types
 
-###The R syntax
+### The R syntax
 * type math in console: `3 + 5`
 * this prints the result to screen, not "remembered" by R
 * `weight_kg <- 55`
@@ -93,9 +93,9 @@
 * `weight_lb <- 2.2 * weight_kg` create new object 
 * `weight_kg <- 100` send new value to object 
 * what is `weight_lb` now?
-Socrative question 1
+* **Challenge question** 
 
-###Vectors and data types
+### Vectors and data types
 * vector: basic data structure in R
 * groups of values (numbers or characters)
 * assign in list: `weights <- c(50, 60, 65)`
@@ -115,9 +115,8 @@ Socrative question 1
 	* logical (true/false)
 	* integer
 	* complex
-Socrative question 2
 
-###Subsetting vectors 
+### Subsetting vectors 
 * extract individual values from within vector: `animals[2]`
 * extract multiple values: `weights[c(1,3)]`
 * other types of data structures:
@@ -125,11 +124,11 @@ Socrative question 2
 	* matrix
 	* data.frames
 	* factors
-Socrative question
+* **Challenge question** 
 
-####STARTING WITH DATA
+## STARTING WITH DATA
 
-###Survey data
+### Survey data
 * .csv file containing species and weight
 	* each row has info for one collection
 	* each column contains info collected for each specimen
@@ -141,9 +140,9 @@ Socrative question
 * limited output: `head(surveys)`
 * data.frame: table where columns are vectors of same length
 * `str(surveys)`
-Socrative question: class, rows, columns, how many species?
+* **Challenge question**
 
-###Factors
+### Factors
 * factors represent categorical data, can be ordered or unordered
 * contain pre-defined set of values known as levels (assigned alphabetically)
 * `sex <- factor(c("male", "female", "female", "male"))`
@@ -158,7 +157,7 @@ Socrative question: class, rows, columns, how many species?
 * `levels(food)`
 * `min(food) ## works!`
 
-###Converting factors
+### Converting factors
 * converting factors to characters only requires `as.character()`
 * converting factors to numeric is tricker: `f <- factor(c(1, 5, 10, 2))`
 * `as.numeric(f) ## wrong! and there is no warning...`
@@ -167,19 +166,23 @@ Socrative question: class, rows, columns, how many species?
 	* obtain all the factor levels using `levels(f)`
 	* convert these levels to numeric values using `as.numeric(levels(f))`
 	* access these numeric values using the underlying integers using `[f]`
-Socrative question about table()
 
-####THE DATA.FRAME CLASS
+## THE DATA.FRAME CLASS
 * **Objectives**: understand data.frames, sequences, access elements of data.frame
 
-###What are data.frames?
+### What are data.frames?
 * default data structure for tabular data, used for statistics and plotting
 * import using `read.csv()` or `read.table()`; many default options
 * can force words to be characters (instead of factors) by setting `stringsAsFactors=FALSE`
 * import to know how R is interpreting your data!
-Challenge questions
+* **Challenge question** There are mistakes in this data.frame. How to fix?
+```
+author_book <- data.frame(author_first=c("Charles", "Ernst", "Theodosius"),
+                          author_last=c(Darwin, Mayr, Dobzhansky),
+                          year=c(1942, 1970))
+```
 
-###Inspecting data frames
+### Inspecting data frames
 * size:
 	* `dim()` number of rows, number of columns
 	* `nrow()` rows
@@ -194,7 +197,7 @@ Challenge questions
 	* `str()` structure, class, length, content (by column)
 	* `summary()` summary stats for each column
 
-###Indexing and sequences
+### Indexing and sequences
 * you can extract values from a vector using brackets
 * recall animals `animals <- c("mouse", "rat", "dog", "cat")`
 * `animals[2]`
@@ -223,12 +226,12 @@ Challenge questions
 	* for our purposes, these are equivalent
 	* the last also includes partial matching, so `surveys$d` includes `day` column
 	* RStudio has autocomplete
-Challenge
+* **Challenge question**
 
-####AGGREGATING AND ANALYZING DATA WITH DPLYR
+## AGGREGATING AND ANALYZING DATA WITH DPLYR
 * **Objectives**: describe packages, selecting columns and filtering rows, pipes, mutate, split/apply/combine
 
-###Data manipulation with dplyr
+### Data manipulation with dplyr
 * packages: collections of additional functions to help you perform more operations
 * while some commands are included with a general R installation ("base R"), individual researchers can write their own commands, packages are how they are distributed for other people to use
 * `install.packages("dplyr")` you only need to install once per machine!
@@ -237,15 +240,15 @@ Challenge
 * may see red text output: these are probably not errors, just warnings!
 * check to see if installation worked by typing `?select`
 
-###What is dplyr?
+### What is dplyr?
 * dplyr is a package that helps with common data manipulation tasks, especially data frames
 * includes a number of functions, we'll learn a few of the most widely used
 
-###Selecting columns and filtering rows
+### Selecting columns and filtering rows
 * `select(surveys, plot_id, species_id, weight)` for certain columns
 * `filter(surveys, year == 1995)` for certain rows
 
-###Pipes
+### Pipes
 * You may want to select rows and columns at the same time
 * there are many ways to do this:
 	* intermediate steps (create temp objects, may clutter up space)
@@ -262,7 +265,7 @@ select(species_id, sex, weight)
 * can assign to object, view output
 Challenge question
 
-##Mutate
+### Mutate
 * create new columns based on existing columns
 * create new column of weight in kg:
 ```
@@ -277,8 +280,9 @@ surveys %>%
 	mutate(weight_kg = weight / 1000) %>% 
 	head
 ```
+* **Challenge** Using pipes, subset the data to include rows before 1995. Retain columns year, sex, and weight.
 
-###Split-apply-combine with summarize
+### Split-apply-combine with summarize
 * split data into groups, apply analysis to each group, combine results
 * to count number of rows for each sex:
 ```
@@ -317,8 +321,9 @@ surveys %>%
 	* how many times was each plot_type surveyed?
 	* Use group_by() and summarize() to find the mean, min, and max hindfoot length for each species.
 	* What was the heaviest animal measured in each year? Return the columns year , genus , species , and weight
+* dplyr cheatsheet: http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
 	
-####DATA VISUALIZATION WITH GGPLOT2
+## DATA VISUALIZATION WITH GGPLOT2
 * **Objectives**: visualize mammals data, understand ggplot2 methods, build step-by-step complex plots with ggplot2
 
 * load required packages
@@ -328,7 +333,7 @@ library("ggplot2")
 ```
 * load data from figshare: `surveys_raw <- read.csv("https://ndownloader.figshare.com/files/2292172")`
 
-###Data cleaning and preparing for plotting
+### Data cleaning and preparing for plotting
 * `summary(surveys_raw)`
 * remove missing values for species ID:
 ```
@@ -362,18 +367,18 @@ surveys_complete <- surveys_complete %>%
 * make simple plot of hindfoot length as a function of weight
 `plot(x = surveys_complete$weight, y = surveys_complete$hindfoot_length)`
 
-###Plotting with ggplot2
+### Plotting with ggplot2
 * ggplot2 is a plotting package that helps create complex, publication quality plots with minimal effort
 * add layers of complexity to show data in the desired manner
 * bind plot to specific data frame:`ggplot(data = surveys_complete)`
 * define aesthetics that map variables to axes: `ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length))`
 * add geoms that represent data on the plot:`ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + geom_point()`
 
-###Modifying plots
+### Modifying plots
 * add transparency: `ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + geom_point(alpha = 0.1)`
 * add color: `ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + geom_point(alpha = 0.1, color = "blue")`
 
-###Boxplot
+### Boxplot
 * visualize distribution of weight within each species: `ggplot(data = surveys_complete, aes(x = species_id, y = weight)) + geom_boxplot()
 * add points:
 ```
@@ -381,12 +386,12 @@ ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
 	geom_jitter(alpha = 0.3, color = "tomato") +
 	geom_boxplot(alpha = 0)
 ```
-* Challenges:
-	* Replace the box plot with a violin plot; see geom_violin()
-	* Represent weight on the log10 scale; see scale_y_log10()
+* **Challenges:**
+	* Replace the box plot with a violin plot; see `geom_violin()`
+	* Represent weight on the log10 scale; see `scale_y_log10()`
 	* Create boxplot for hindfoot_length .
 	
-###Plotting time series data
+### Plotting time series data
 * calculate number of counts per year for each species:
 ```
 yearly_counts <- surveys_complete %>% 
@@ -398,11 +403,11 @@ yearly_counts <- surveys_complete %>%
 * show species separately: `(data = yearly_counts, aes(x = year, y = n, group = species_id)) + geom_line()`
 * add colors: `ggplot(data = yearly_counts, aes(x = year, y = n, group = species_id, color = species_id)) + geom_line()`
 
-###Faceting
+### Faceting
 * split one plot into multiple plots based on a factor
 * plot one time series for each species separately: `ggplot(data = yearly_counts, aes(x = year, y = n, color = species_id)) + geom_line() + facet_wrap(~species_id)`
 * What if we wanted a separate line in each facet for male and female?
-* Challenges:
+* **Challenges:**
 	* filter the dataframe so that we only keep records with sex “F” or “M”s
 	```
 	sex_values = c("F", "M")
@@ -477,7 +482,7 @@ ust=.5),
 * save plot to file: `ggsave("observed_species_in_time.png", width=15, height=10)`
 	* file format included in file name, width and height can also be specified
 
-####END CLASS
+## END CLASS
 * remove R history from dropbox (remind students to save first if they want it)
 * give students links to complete R lessons (and intermediate lessons)
 * sticky note feedback
