@@ -253,7 +253,7 @@ Challenge
 	* pipes: take output from one function and send as input to another function
 * pipes are a common programming model, and these data will help you become familiar with them
 	* in R, pipes are `%>%` and are available through the package magrittr (installed with dplyr)
-* ```
+```
 surveys %>%
 filter(weight < 5) %>% 
 select(species_id, sex, weight)
@@ -348,7 +348,7 @@ surveys_complete <- surveys_raw %>%
 species_counts <- surveys_complete %>% 
 	group_by(species_id) %>%
 	tally
-head(species_counts
+head(species_counts)
 
 # get names of frequent species
 frequent_species <- species_counts %>% 
@@ -426,8 +426,7 @@ ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = species_id, group 
 geom_line() + facet_wrap(~ species_id) + theme_bw()
 ```
 * color by sex instead of species:
-```
-ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex, group = sex)) + geom_line() + facet_wrap(~ species_id) + theme_bw()
+`ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex, group = sex)) + geom_line() + facet_wrap(~ species_id) + theme_bw()`
 * plot average weight of each species over the course of years
 ```
 yearly_weight <- surveys_complete %>%
