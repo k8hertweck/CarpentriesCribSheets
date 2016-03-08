@@ -57,7 +57,7 @@
 * `round(3.14159)`
 * learn what other options are available for this function: `args(round)`
 * fund more information: `?round`
-* apply this argument for this function: `round(3.14159, digits=2)
+* apply this argument for this function: `round(3.14159, digits=2)`
 * names and order can be important: if not named, need to be in right order, if named, can put in any order: `round(digits=2, x=3.14159)`
 
 ### Organizing working directory
@@ -93,7 +93,15 @@
 * `weight_lb <- 2.2 * weight_kg` create new object 
 * `weight_kg <- 100` send new value to object 
 * what is `weight_lb` now?
-* **Challenge question** 
+* **Challenge question (Socrative)** What are the values after each statement in the following?
+```
+mass <- 47.5            # mass?
+age  <- 122             # age?
+mass <- mass * 2.0      # mass?
+age  <- age - 20        # age?
+mass_index <- mass/age  # mass_index?
+```
+* Answer: mass 95, age 102
 
 ### Vectors and data types
 * vector: basic data structure in R
@@ -124,7 +132,29 @@
 	* matrix
 	* data.frames
 	* factors
-* **Challenge question** 
+* **Challenge questions** 
+	* We’ve seen that atomic vectors can be of type character,
+  numeric, integer, and logical. But what happens if we try to mix these types in
+  a single vector?
+		* _Answer_: R implicitly converts them to all be the same type
+	* **Question**: Why do you think it happens?
+		* _Answer_: Vectors can be of only one data type. R tries to convert (=coerce)
+  the content of this vector to find a "common denominator".
+	* **Question**: Can you draw a diagram that represents the hierarchy of the data
+  types?
+		* _Answer_: `logical --> numeric --> character <-- logical`
+
+### Missing data
+* missing data are represented as NA in R
+* use `na.rm=TRUE` to ignore missing data (otherwise might get NA as answer)
+```
+heights <- c(2, 4, 4, NA, 6)
+mean(heights)
+max(heights)
+mean(heights, na.rm = TRUE)
+max(heights, na.rm = TRUE)
+```
+* also `is.na()`, `na.omit()`, and `complete.cases()`
 
 ## STARTING WITH DATA
 
@@ -139,7 +169,10 @@
 * limited output: `head(surveys)`
 * data.frame: table where columns are vectors of same length
 * `str(surveys)`
-* **Challenge question**
+* **Challenge question** Based on the output of `str(surveys)`:
+	* What is the class of the object `surveys`?
+	* How many rows and how many columns are in this object?
+	* How many species have been recorded during these surveys?
 
 ### Factors
 * factors represent categorical data, can be ordered or unordered
@@ -180,6 +213,7 @@ author_book <- data.frame(author_first=c("Charles", "Ernst", "Theodosius"),
                           author_last=c(Darwin, Mayr, Dobzhansky),
                           year=c(1942, 1970))
 ```
+* Answer: author_last in quotes, add NA for first cell in year
 
 ### Inspecting data frames
 * size:
@@ -226,6 +260,40 @@ author_book <- data.frame(author_first=c("Charles", "Ernst", "Theodosius"),
 	* the last also includes partial matching, so `surveys$d` includes `day` column
 	* RStudio has autocomplete
 * **Challenge question**
+
+### Conditional subsetting
+* logical vectors: assigning value to pieces of data
+```
+animals <- c("mouse", "rat", "dog", "cat")
+animals[c(TRUE, FALSE, TRUE, TRUE)]
+```
+* test the logical assignments:
+```
+animals != "rat"
+animals[animals != "rat"]
+animals[animals == "cat"]
+```
+* combine multiple tests using `&` (both conditions are true, AND) or `|`
+(at least one of the conditions if true, OR):
+```
+animals[animals == "cat" & animals == "rat"] # returns nothing
+animals[animals == "cat" | animals == "rat"] # returns both rat and cat
+```
+* function `%in%` allows you to test if a value if found in a vector
+```
+animals %in% c("rat", "cat", "dog", "duck")
+animals[animals %in% c("rat", "cat", "dog", "duck")]
+```
+* test whether the elements of your vector are less than or greater than a given value:
+```
+dates <- c(1960, 1963, 1974, 2015, 2016)
+dates >= 1974
+dates[dates >= 1974]
+dates[dates > 1970 & dates <= 2015]
+dates[dates < 1975 | dates > 2016]
+```
+* **Challenge** Why does `"four" > "five"` returns `TRUE`?
+	* Answer: this is based on alphabet
 
 ## AGGREGATING AND ANALYZING DATA WITH DPLYR
 * **Objectives**: describe packages, selecting columns and filtering rows, pipes, mutate, split/apply/combine
