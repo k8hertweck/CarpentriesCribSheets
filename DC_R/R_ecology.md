@@ -132,8 +132,7 @@
 * .csv file containing species and weight
 	* each row has info for one collection
 	* each column contains info collected for each specimen
-* download data and save in data directory: `download.file("https://ndownloader.figshare.com/files/2292169",
-               "data/portal_data_joined.csv")`
+* download data and save in data directory: `download.file("https://ndownloader.figshare.com/files/2292169", "data/portal_data_joined.csv")`
 * load data: `surveys <- read.csv('data/portal_data_joined.csv')`
 	* no output, but data are saved in environment
 * recall with `surveys`
@@ -379,7 +378,7 @@ surveys_complete <- surveys_complete %>%
 * add color: `ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + geom_point(alpha = 0.1, color = "blue")`
 
 ### Boxplot
-* visualize distribution of weight within each species: `ggplot(data = surveys_complete, aes(x = species_id, y = weight)) + geom_boxplot()
+* visualize distribution of weight within each species: `ggplot(data = surveys_complete, aes(x = species_id, y = weight)) + geom_boxplot()`
 * add points:
 ```
 ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
