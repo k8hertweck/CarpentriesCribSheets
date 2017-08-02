@@ -44,6 +44,8 @@
 	* tail
 	* | (pipe)
 	* nano
+	* make directories: ~/dc_workshop, containing docs, data, results
+	* history
 
 * Working with files
 	* cat
@@ -71,33 +73,40 @@
 
 * Quality control
 	* cd (home directory)
-	* mkdir dc_workshop
-	* mkdir dc_workshop/data dc_workshop/docs dc_workshop/results
-	* move data to project directory
-	* change directory to data folder
-	* run fastqc on untrimmed data
-	* view results: change directory, try to unzip
-	* for loop: for zip in *.zip; do unzip $zip; done
-	* cat */summary.txt > ~/dc_workshop/docs/fastqc_summaries.txt
-	* trimmomatic: run with java -jar ~/Trimmomatic-0.32/trimmomatic-0.32.jar inputfile outputfile OPTION:VALUE...
-	* write in for loop: for infile in *.fastq; do outfile=$infile\_trim.fastq; java -jar ~/Trimmomatic-0.32/trimmomatic-0.32.jar SE $infile $outfile SLIDINGWINDOW:4:20 MINLEN:20; done
+	* move data to project directory: `mv ~/.dc_sampledata_lite/untrimmed_fastq/ ~/dc_workshop/data/`
+	* change directory to data folder: `cd ~/dc_workshop/data/untrimmed_fastq/`
+	* run fastqc on untrimmed data: 
+	* can run on all untrimmed data with one command: `~/FastQC/fastqc *.fastq`
+	* directory for results: `mkdir ~/dc_workshop/results/fastqc_untrimmed_reads`
+	* move results: `mv *.zip ~/dc_workshop/results/fastqc_untrimmed_reads/`, `mv *.html ~/dc_workshop/results/fastqc_untrimmed_reads/`
+	* view results: change directory, try to unzip (`unzip *.zip`)
+	* for loop: `for zip in *.zip; do unzip $zip; done`
+	* save all results to file: `cat */summary.txt > ~/dc_workshop/docs/fastqc_summaries.txt`
+	* trimmomatic: run with `java -jar /home/dcuser/Trimmomatic-0.32/trimmomatic-0.32.jar SE SRR098283.fastq \
+SRR098283.fastq_trim.fastq SLIDINGWINDOW:4:20 MINLEN:20`
+	* write in for loop: `for infile in *.fastq; do outfile=$infile\_trim.fastq; java -jar ~/Trimmomatic-0.32/trimmomatic-0.32.jar SE $infile $outfile SLIDINGWINDOW:4:20 MINLEN:20; done`
+	* can run FastQC on trimmed files to check
 
 * Variant calling workflow
-	* mkdir  results/sai results/sam results/bam results/bcf results/vcf
-	* bwa index data/ref_genome/ecoli_rel606.fasta
-	* bwa aln path/to/ref_genome.fasta path/to/fastq > SAIfile
-	* bwa samse data/ref_genome/ecoli_rel606.fasta \
+	* start from `dc_workshop`: `cd ~/dc_workshop`
+	* copy over reference genome data: `cp -r ~/.dc_sampledata_lite/ref_genome/ data/`
+	* `mkdir  results/sai results/sam results/bam results/bcf results/vcf`
+	* all software we'll use is already installed on the cloud instance
+	* index reference: `bwa index data/ref_genome/ecoli_rel606.fasta`
+	* align reads to reference: `bwa aln data/ref_genome/ecoli_rel606.fasta \
+    data/trimmed_fastq/SRR097977.fastq_trim.fastq > results/sai/SRR097977.aligned.sai`
+	* convert from SAI to SAM: `bwa samse data/ref_genome/ecoli_rel606.fasta \
     results/sai/SRR097977.aligned.sai \
     data/trimmed_fastq/SRR097977.fastq_trim.fastq > \
-    results/sam/SRR097977.aligned.sam
-    * samtools view -S -b results/sam/SRR097977.aligned.sam > results/bam/SRR097977.aligned.bam
-    * samtools sort results/bam/SRR097977.aligned.bam results/bam/SRR097977.aligned.sorted
-    * samtools mpileup -g -f data/ref_genome/ecoli_rel606.fasta \
-        results/bam/SRR097977.aligned.sorted.bam > results/bcf/SRR097977_raw.bcf
-    * bcftools view -bvcg results/bcf/SRR097977_raw.bcf > results/bcf/SRR097977_variants.bcf
-    * bcftools view results/bcf/SRR097977_variants.bcf \ | /usr/share/samtools/vcfutils.pl varFilter - > results/vcf/SRR097977_final_variants.vcf
-    * overview vcf format
-    * samtools index results/bam/SRR097977.aligned.sorted.bam
+    results/sam/SRR097977.aligned.sam`
+    * convert SAM to BAM: `samtools view -S -b results/sam/SRR097977.aligned.sam > results/bam/SRR097977.aligned.bam`
+    * sort BAM: `samtools sort results/bam/SRR097977.aligned.bam results/bam/SRR097977.aligned.sorted`
+    * calculate read coverage: `samtools mpileup -g -f data/ref_genome/ecoli_rel606.fasta \
+        results/bam/SRR097977.aligned.sorted.bam > results/bcf/SRR097977_raw.bcf`
+    * identify SNPs: `bcftools view -bvcg results/bcf/SRR097977_raw.bcf > results/bcf/SRR097977_variants.bcf`
+    * filter SNPs: `bcftools view results/bcf/SRR097977_variants.bcf \ | /usr/share/samtools/vcfutils.pl varFilter - > results/vcf/SRR097977_final_variants.vcf`
+    * overview vcf format: `less results/vcf/SRR097977_final_variants.vcf`
+    * index BAM: `samtools index results/bam/SRR097977.aligned.sorted.bam`
     * transfer results files: results/bam/SRR097977.aligned.sorted.bam, results/bam/SRR097977.aligned.sorted.bam.bai, data/ref_genome/ecoli_rel606.fasta, results/vcf/SRR097977_final_variants.vcf
     
 * Visualizing with IGV
@@ -108,3 +117,6 @@
 	* Filtered entries are transparent
 	
 * Automating with shell scripting
+	* script available in dc_sample_data/variant_calling.tar.gz
+	* uncompress and expand tarball: `tar -xvf variant_calling.tar.gz`
+	
