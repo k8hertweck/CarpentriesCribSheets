@@ -67,31 +67,52 @@
 
 ## Data wrangling and processing
 
+* instructor setup:
+	* make sure data are back in hidden folder: `mv ~/.dc_sampledata_lite/untrimmed_fastq/ ~/dc_workshop/data/`
+	* have two ssh sessions open to show things
+	* have short list of notes available for students to reference?
+	* draw directory structure on board
+	* open lesson webpage to show data formats and other figures
+
 * describe variant calling
 	* data types
 	* main process
+	* all software we'll use is already available on the cloud instance
+	* in many cases, there are multiple ways to accomplish the same task
+		* some are more efficient (use less typing)
+		* we may skip running steps on all files and copy processed data over to save time
+		* we'll use absolute paths for this lesson to minimize confusion (but relative paths can work too!)
 
 * Quality control
 	* cd (home directory)
 	* move data to project directory: `mv ~/.dc_sampledata_lite/untrimmed_fastq/ ~/dc_workshop/data/`
 	* change directory to data folder: `cd ~/dc_workshop/data/untrimmed_fastq/`
-	* run fastqc on untrimmed data: 
+	* software used in this section represents software downloaded by a user
+		* executable files can be found wherever you decide to place them
+	* run fastqc on untrimmed data: `~/FastQC/fastqc SRR097977.fastq`
 	* can run on all untrimmed data with one command: `~/FastQC/fastqc *.fastq`
+		* takes 4-5 minutes to run all (but don't need to run all)
+		* in the meantime, discuss fasta/fastq format
 	* directory for results: `mkdir ~/dc_workshop/results/fastqc_untrimmed_reads`
 	* move results: `mv *.zip ~/dc_workshop/results/fastqc_untrimmed_reads/`, `mv *.html ~/dc_workshop/results/fastqc_untrimmed_reads/`
 	* view results: change directory, try to unzip (`unzip *.zip`)
 	* for loop: `for zip in *.zip; do unzip $zip; done`
 	* save all results to file: `cat */summary.txt > ~/dc_workshop/docs/fastqc_summaries.txt`
-	* trimmomatic: run with `java -jar /home/dcuser/Trimmomatic-0.32/trimmomatic-0.32.jar SE SRR098283.fastq \
+	* trimmomatic: run with `java -jar ~/Trimmomatic-0.32/trimmomatic-0.32.jar SE SRR098283.fastq \
 SRR098283.fastq_trim.fastq SLIDINGWINDOW:4:20 MINLEN:20`
 	* write in for loop: `for infile in *.fastq; do outfile=$infile\_trim.fastq; java -jar ~/Trimmomatic-0.32/trimmomatic-0.32.jar SE $infile $outfile SLIDINGWINDOW:4:20 MINLEN:20; done`
-	* can run FastQC on trimmed files to check
+		* takes 4-5 minutes to run all
+		* in meantime, explain screen output, other options for trimming, can run FastQC on trimmed files to check
+		* alternatively, copy already trimmed to directory: `mv ~/.dc_sampledata_lite/trimmed_fastq/ ~/dc_workshop/data/`
+	* create new directory: `mkdir ~/dc_workshop/data/trimmmed_fastq`
+	* move trimmed reads: `mv *_trim.fastq ~/dc_workshop/data/trimmed_fastq`
 
 * Variant calling workflow
+	* we'll work through one sequence sample, then talk about how to automate
+	* software here is installed for computer, so path to executable does not need to be specified
 	* start from `dc_workshop`: `cd ~/dc_workshop`
 	* copy over reference genome data: `cp -r ~/.dc_sampledata_lite/ref_genome/ data/`
-	* `mkdir  results/sai results/sam results/bam results/bcf results/vcf`
-	* all software we'll use is already installed on the cloud instance
+	* `mkdir results/sai results/sam results/bam results/bcf results/vcf`
 	* index reference: `bwa index data/ref_genome/ecoli_rel606.fasta`
 	* align reads to reference: `bwa aln data/ref_genome/ecoli_rel606.fasta \
     data/trimmed_fastq/SRR097977.fastq_trim.fastq > results/sai/SRR097977.aligned.sai`
@@ -106,8 +127,13 @@ SRR098283.fastq_trim.fastq SLIDINGWINDOW:4:20 MINLEN:20`
     * identify SNPs: `bcftools view -bvcg results/bcf/SRR097977_raw.bcf > results/bcf/SRR097977_variants.bcf`
     * filter SNPs: `bcftools view results/bcf/SRR097977_variants.bcf \ | /usr/share/samtools/vcfutils.pl varFilter - > results/vcf/SRR097977_final_variants.vcf`
     * overview vcf format: `less results/vcf/SRR097977_final_variants.vcf`
-    * index BAM: `samtools index results/bam/SRR097977.aligned.sorted.bam`
-    * transfer results files: results/bam/SRR097977.aligned.sorted.bam, results/bam/SRR097977.aligned.sorted.bam.bai, data/ref_genome/ecoli_rel606.fasta, results/vcf/SRR097977_final_variants.vcf
+    * index BAM (required for visualization): `samtools index results/bam/SRR097977.aligned.sorted.bam`
+    * transfer results files: 
+    	* use FileZilla: enter Host, dcuser, ps, port (22) for Quickconnect
+	* will take awhile to download (fairly large files), can demo IGV in meantime
+	* orient to windows: select Desktop on left, navigate in cloud on right
+	* data/ref_genome/ecoli_rel606.fasta, results/bam/SRR097977.aligned.sorted.bam, results/bam/SRR097977.aligned.sorted.bam.bai, results/vcf/SRR097977_final_variants.vcf
+	* mention transferring data to a cloud instance
     
 * Visualizing with IGV
 	* Genomes/Load genomes from file: load reference genome
@@ -119,4 +145,8 @@ SRR098283.fastq_trim.fastq SLIDINGWINDOW:4:20 MINLEN:20`
 * Automating with shell scripting
 	* script available in dc_sample_data/variant_calling.tar.gz
 	* uncompress and expand tarball: `tar -xvf variant_calling.tar.gz`
-	
+
+* continuing to work on your own
+	* files (data and software) will be found in different places on different computers
+	* the hardest part is keeping track of files, including upload/download
+	* document your work thoroughly: easiest way is through scripts
