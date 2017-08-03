@@ -20,10 +20,26 @@
 ## Cloud computing for genomics
 
 * what is cloud computing?
+	* on-demand, virtual computing (virtual machine, or cloud instance)
+	* difference between remote and local
+	* ask about previous experience
+	* advantages: access, admin rights, preconfigured (BioLinux)
+	* disadvantages: may cost $$$, may be difficult to obtain help
+	* commercial: Amazon (using today), Google Cloud; open science: Atmosphere, JetStream
 * logging in
-* file transfer: Filezilla and wget
-* download data files
-	* http://www.datacarpentry.org/wrangling-genomics/variant_calling.tar.gz
+	* Mac and Linux
+		* terminal
+		* ssh username@host
+		* answer yes (first time)
+		* enter password
+	* Windows
+		* putty
+		* Host, dcuser, ps, port (22)
+* data transfer
+	* can download from URL using `wget URL`
+	* can transfer using FileZilla (we'll do this later)
+	* today the data and software we'll be using are already available on our custom cloud instance
+	* quick download of some data files used today: http://www.datacarpentry.org/wrangling-genomics/variant_calling.tar.gz
 
 ## Introduction to the command line/shell
 
