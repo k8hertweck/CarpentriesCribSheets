@@ -91,6 +91,9 @@
 
 ## Data wrangling and processing
 
+* link to module: http://www.datacarpentry.org/wrangling-genomics/
+* required software (preinstalled): http://www.datacarpentry.org/wrangling-genomics/setup/
+
 * instructor setup:
 	* make sure data are back in hidden folder: `mv ~/.dc_sampledata_lite/untrimmed_fastq/ ~/dc_workshop/data/`
 	* have two ssh sessions open to show things
@@ -113,6 +116,7 @@
 	* change directory to data folder: `cd ~/dc_workshop/data/untrimmed_fastq/`
 	* software used in this section represents software downloaded by a user
 		* executable files can be found wherever you decide to place them
+	* **FastQC:** https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
 	* run fastqc on untrimmed data: `~/FastQC/fastqc SRR097977.fastq`
 	* can run on all untrimmed data with one command: `~/FastQC/fastqc *.fastq`
 		* takes 4-5 minutes to run all (but don't need to run all)
@@ -122,7 +126,8 @@
 	* view results: change directory, try to unzip (`unzip *.zip`)
 	* for loop: `for zip in *.zip; do unzip $zip; done`
 	* save all results to file: `cat */summary.txt > ~/dc_workshop/docs/fastqc_summaries.txt`
-	* trimmomatic: run with `java -jar ~/Trimmomatic-0.32/trimmomatic-0.32.jar SE SRR098283.fastq \
+	* **trimmomatic:** http://www.usadellab.org/cms/?page=trimmomatic
+	* run with `java -jar ~/Trimmomatic-0.32/trimmomatic-0.32.jar SE SRR098283.fastq \
 SRR098283.fastq_trim.fastq SLIDINGWINDOW:4:20 MINLEN:20`
 	* write in for loop: `for infile in *.fastq; do outfile=$infile\_trim.fastq; java -jar ~/Trimmomatic-0.32/trimmomatic-0.32.jar SE $infile $outfile SLIDINGWINDOW:4:20 MINLEN:20; done`
 		* takes 4-5 minutes to run all
@@ -137,6 +142,7 @@ SRR098283.fastq_trim.fastq SLIDINGWINDOW:4:20 MINLEN:20`
 	* start from `dc_workshop`: `cd ~/dc_workshop`
 	* copy over reference genome data: `cp -r ~/.dc_sampledata_lite/ref_genome/ data/`
 	* `mkdir results/sai results/sam results/bam results/bcf results/vcf`
+	* **BWA:** http://bio-bwa.sourceforge.net/bwa.shtml
 	* index reference: `bwa index data/ref_genome/ecoli_rel606.fasta`
 	* align reads to reference: `bwa aln data/ref_genome/ecoli_rel606.fasta \
     data/trimmed_fastq/SRR097977.fastq_trim.fastq > results/sai/SRR097977.aligned.sai`
@@ -144,10 +150,12 @@ SRR098283.fastq_trim.fastq SLIDINGWINDOW:4:20 MINLEN:20`
     results/sai/SRR097977.aligned.sai \
     data/trimmed_fastq/SRR097977.fastq_trim.fastq > \
     results/sam/SRR097977.aligned.sam`
+    * **samtools:** http://www.htslib.org/doc/samtools.html
     * convert SAM to BAM: `samtools view -S -b results/sam/SRR097977.aligned.sam > results/bam/SRR097977.aligned.bam`
     * sort BAM: `samtools sort results/bam/SRR097977.aligned.bam results/bam/SRR097977.aligned.sorted`
     * calculate read coverage: `samtools mpileup -g -f data/ref_genome/ecoli_rel606.fasta \
         results/bam/SRR097977.aligned.sorted.bam > results/bcf/SRR097977_raw.bcf`
+    * **bcftools:** http://samtools.github.io/bcftools/bcftools.html
     * identify SNPs: `bcftools view -bvcg results/bcf/SRR097977_raw.bcf > results/bcf/SRR097977_variants.bcf`
     * filter SNPs: `bcftools view results/bcf/SRR097977_variants.bcf \ | /usr/share/samtools/vcfutils.pl varFilter - > results/vcf/SRR097977_final_variants.vcf`
     * overview vcf format: `less results/vcf/SRR097977_final_variants.vcf`
