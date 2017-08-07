@@ -15,7 +15,15 @@
 
 * Planning for NGS projects
 	* sample submission sheet: https://raw.githubusercontent.com/hbc/dc_2016_04/master/data/sample_submission.txt
+		* What are some errors you can spot in the data? Typos, missing data, inconsistencies?
+		* What improvements could be made to the choices in naming?
+		* What are some errors in the spreadsheet that would be difficult to spot? Is there anyway you can test this?
 	* metadata back from facility: https://raw.githubusercontent.com/hbc/dc_2016_04/master/data/sequencing_results_metadata.txt
+		* How are these samples organized?
+		* If you wanted to relate file names to the sample names submitted above (e.g. wild type…) could you do so?
+		* What do the _R1/_R2 extensions mean in the file names?
+		* What does the ‘.gz’ extension on the filenames indicate?
+		* What is the total file size - what challenges in downloading and sharing these data might exist?
 	
 ## Cloud computing for genomics
 
