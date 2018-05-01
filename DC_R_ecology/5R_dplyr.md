@@ -17,15 +17,13 @@
 ### Data manipulation with dplyr
 * packages: collections of additional functions to help you perform more operations
 * while some commands are included with a general R installation ("base R"), individual researchers can write their own commands, packages are how they are distributed for other people to use
-* `install.packages("dplyr")` you only need to install once per machine!
+* tidyverse is a collection of packages that are very popular for data manipulation
+* `install.packages("tidyverse")` you only need to install once per machine!
 	* you may be asked to choose a site, but this doesn't matter much (RStudio mirror)
-* `library("dplyr")` you'll need to load the package every time you reboot R
+* `library("tidyverse")` you'll need to load the package every time you reboot R
 * may see red text output: these are probably not errors, just warnings!
 * check to see if installation worked by typing `?select`
-
-### What is dplyr?
-* dplyr is a package that helps with common data manipulation tasks, especially data frames
-* includes a number of functions, we'll learn a few of the most widely used
+* load data: `surveys <- read_csv("data/portal_data_joined.csv")`
 
 ### Selecting columns and filtering rows
 * `select(surveys, plot_id, species_id, weight)` for certain columns
@@ -67,12 +65,6 @@ surveys %>%
 
 ### Split-apply-combine with summarize
 * split data into groups, apply analysis to each group, combine results
-* to count number of rows for each sex:
-```
-surveys %>% 
-	group_by(sex) %>% 
-	tally()
-```
 * collapse each group into single-row summary:
 ```
 surveys %>%
@@ -88,20 +80,87 @@ surveys %>%
 * some species weren't weighed, but we can filter out those too!
 ```
 surveys %>%
+	filter(!is.na(weight)) %>%
 	group_by(sex, species_id) %>%
-	summarize(mean_weight = mean(weight, na.rm = TRUE)) %>% 
-	filter(!is.nan(mean_weight))
+	summarize(mean_weight = mean(weight))
 ```
+* add `print(n=15)` to end of last pipe to only print first 15 rows
 * summarize multiple variables at the same time
 ```
 surveys %>%
+	filter(!is.na(weight) %>%
 	group_by(sex, species_id) %>%
-	summarize(mean_weight = mean(weight, na.rm = TRUE),
-		min_weight = min(weight, na.rm = TRUE)) %>% 
-	filter(!is.nan(mean_weight))
+	summarize(mean_weight = mean(weight),
+		min_weight = min(weight))
 ```
+* add `arrange(min_weight)` to end of last pipe to order results
+* count: `surveys %>%
+			count(sex, sort=TRUE)`
 * Challenge: 
 	* how many times was each plot_type surveyed?
 	* Use group_by() and summarize() to find the mean, min, and max hindfoot length for each species.
 	* What was the heaviest animal measured in each year? Return the columns year , genus , species , and weight
 * dplyr cheatsheet: http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
+
+### Reshaping with gather and spread
+* tie in with spreadsheet lesson
+* use of tidyr package (installed with tidyverse)
+* spreading will reshape the data (move rows to columns)
+* create new object with mean weight:
+```surveys_gw <- surveys %>%
+ 	 filter(!is.na(weight)) %>%
+ 	 group_by(genus, plot_id) %>%
+ 	 summarize(mean_weight = mean(weight))
+```
+* spread data:
+```
+surveys_spread <- surveys_gw %>%
+  spread(key = genus, value = mean_weight)
+str(surveys_spread)
+```
+* fill in missing values:
+```
+surveys_gw %>%
+  spread(genus, mean_weight, fill = 0) %>%
+  head()
+```
+* gather: want to treat columns as rows
+```
+surveys_gather <- surveys_spread %>%
+  gather(key = genus, value = mean_weight, -plot_id)
+```
+* specify which columns to include:
+```
+surveys_spread %>%
+  gather(key = genus, value = mean_weight, Baiomys:Spermophilus) %>%
+  head()
+```
+* Challenge: Spread the surveys data frame with year as columns, plot id as rows, and the number of genera per plot as the values. You will need to summarize before reshaping, and use the function `n_distinct()` to get the number of unique genera within a particular chunk of data. 
+```
+rich_time <- surveys %>%
+  group_by(plot_id, year) %>%
+  summarize(n_genera = n_distinct(genus)) %>%
+  spread(year, n_genera)
+head(rich_time)
+```
+
+### Exporting data
+* this also create the set of complete cases for our data visualization
+```
+surveys_complete <- surveys %>%
+  filter(!is.na(weight),           # remove missing weight
+         !is.na(hindfoot_length),  # remove missing hindfoot_length
+         !is.na(sex))                # remove missing sex
+```
+* extract only most common species:
+```
+## Extract the most common species_id
+species_counts <- surveys_complete %>%
+    count(species_id) %>% 
+    filter(n >= 50)
+
+## Only keep the most common species
+surveys_complete <- surveys_complete %>%
+  filter(species_id %in% species_counts$species_id)
+```
+* save data to file: `write_csv(surveys_complete, path = "data_output/surveys_complete.csv")`

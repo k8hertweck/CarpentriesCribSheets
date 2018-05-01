@@ -20,57 +20,14 @@
 * download data and save in data directory: `download.file("https://ndownloader.figshare.com/files/2292169", "data/portal_data_joined.csv")`
 * load data: `surveys <- read.csv('data/portal_data_joined.csv')`
 	* no output, but data are saved in environment
+* default data structure for tabular data, used for statistics and plotting
+* import using `read.csv()` or `read.table()`; many default options
+* import to know how R is interpreting your data!
 * recall with `surveys`
 * limited output: `head(surveys)`
 * data.frame: table where columns are vectors of same length
-* `str(surveys)`
-* **Challenge question** Based on the output of `str(surveys)`:
-	* What is the class of the object `surveys`?
-	* How many rows and how many columns are in this object?
-	* How many species have been recorded during these surveys?
-
-### Factors
-* factors represent categorical data, can be ordered or unordered
-* contain pre-defined set of values known as levels (assigned alphabetically)
-* `sex <- factor(c("male", "female", "female", "male"))`
-* `levels(sex)` and `nlevels(sex)`
-* may need to specify the levels
-* `food <- factor(c("low", "high", "medium", "high", "low", "medium", "high"))`
-* `levels(food)`
-* `food <- factor(food, levels=c("low", "medium", "high"))`
-* `levels(food)`
-* `min(food) ## doesn't work`
-* `food <- factor(food, levels=c("low", "medium", "high"), ordered=TRUE)` 
-* `levels(food)`
-* `min(food) ## works!`
-
-### Converting factors
-* converting factors to characters only requires `as.character()`
-* converting factors to numeric is tricker: `f <- factor(c(1, 5, 10, 2))`
-* `as.numeric(f) ## wrong! and there is no warning...`
-* `as.numeric(as.character(f)) ## works...`
-* `as.numeric(levels(f))[f] ## The recommended way.`
-	* obtain all the factor levels using `levels(f)`
-	* convert these levels to numeric values using `as.numeric(levels(f))`
-	* access these numeric values using the underlying integers using `[f]`
-
-## THE DATA.FRAME CLASS
-* **Objectives**: understand data.frames, sequences, access elements of data.frame
-
-### What are data.frames?
-* default data structure for tabular data, used for statistics and plotting
-* import using `read.csv()` or `read.table()`; many default options
-* can force words to be characters (instead of factors) by setting `stringsAsFactors=FALSE`
-* import to know how R is interpreting your data!
-* **Challenge question** There are mistakes in this data.frame. How to fix?
-```
-author_book <- data.frame(author_first=c("Charles", "Ernst", "Theodosius"),
-                          author_last=c(Darwin, Mayr, Dobzhansky),
-                          year=c(1942, 1970))
-```
-* Answer: author_last in quotes, add NA for first cell in year
-
-### Inspecting data frames
+* Object class:
+	* `class(surveys)` - information about the class of the object
 * size:
 	* `dim()` number of rows, number of columns
 	* `nrow()` rows
@@ -84,20 +41,12 @@ author_book <- data.frame(author_first=c("Charles", "Ernst", "Theodosius"),
 * summary
 	* `str()` structure, class, length, content (by column)
 	* `summary()` summary stats for each column
+* **Challenge question** Based on the output of `str(surveys)`:
+	* What is the class of the object `surveys`?
+	* How many rows and how many columns are in this object?
+	* How many species have been recorded during these surveys?
 
-### Indexing and sequences
-* you can extract values from a vector using brackets
-* recall animals `animals <- c("mouse", "rat", "dog", "cat")`
-* `animals[2]`
-* `animals[c(3,2)]`
-* `animals[2:4] #colon selects all items between`
-* `more_animals <- animals[c(1:3,2:4)]
-* R starts counting at one (this is not true of all languages!), called indexing
-* select based on more complex patterns: 
-	* `seq(1, 10, by=2) #counts by two within range, starting with first value`
-	* `seq(5, 10, length.out=3) #splits interval into three equal values`
-	* `seq(50, by=5, length.out=10) #counts by 5 starting at 50, returns 10 values`
-	* `seq(1, 8, by=3) # sequence stops to stay below upper limit`
+### Indexing and subsetting data frames
 * for data frames, you may need to reference both rows and columns
 	* R always assumes first value is row, second is column
 	* `surveys[1] # first column`
@@ -114,38 +63,18 @@ author_book <- data.frame(author_first=c("Charles", "Ernst", "Theodosius"),
 	* for our purposes, these are equivalent
 	* the last also includes partial matching, so `surveys$d` includes `day` column
 	* RStudio has autocomplete
-* **Challenge question**
+* **Challenge question** Create a data.frame containing only the observations from row 200 of the surveys dataset.
 
-### Conditional subsetting
-* logical vectors: assigning value to pieces of data
-```
-animals <- c("mouse", "rat", "dog", "cat")
-animals[c(TRUE, FALSE, TRUE, TRUE)]
-```
-* test the logical assignments:
-```
-animals != "rat"
-animals[animals != "rat"]
-animals[animals == "cat"]
-```
-* combine multiple tests using `&` (both conditions are true, AND) or `|`
-(at least one of the conditions if true, OR):
-```
-animals[animals == "cat" & animals == "rat"] # returns nothing
-animals[animals == "cat" | animals == "rat"] # returns both rat and cat
-```
-* function `%in%` allows you to test if a value if found in a vector
-```
-animals %in% c("rat", "cat", "dog", "duck")
-animals[animals %in% c("rat", "cat", "dog", "duck")]
-```
-* test whether the elements of your vector are less than or greater than a given value:
-```
-dates <- c(1960, 1963, 1974, 2015, 2016)
-dates >= 1974
-dates[dates >= 1974]
-dates[dates > 1970 & dates <= 2015]
-dates[dates < 1975 | dates > 2016]
-```
-* **Challenge** Why does `"four" > "five"` returns `TRUE`?
-	* Answer: this is based on alphabet
+### Factors
+* factors represent categorical data, can be ordered or unordered
+* contain pre-defined set of values known as levels (assigned alphabetically)
+* `sex <- factor(c("male", "female", "female", "male"))`
+* `levels(sex)` and `nlevels(sex)`
+* may need to specify the levels
+* `sex <- factor(sex, levels = c("male", "female"))`
+* converting factors
+* renaming factors
+* using `stringsAsFactors=FALSE`
+
+### Formatting dates
+* requires lubridate package

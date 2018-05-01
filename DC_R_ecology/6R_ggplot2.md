@@ -12,46 +12,13 @@
 
 * load required packages
 ```
-install.packages("ggplot2")
-library("ggplot2")
+library("tidyverse")
 ```
-* load data from figshare: `surveys_raw <- read.csv("https://ndownloader.figshare.com/files/2292172")`
-
-### Data cleaning and preparing for plotting
-* `summary(surveys_raw)`
-* remove missing values for species ID:
-```
-surveys_complete <- surveys_raw %>% 
-	filter(species_id != "")
-```
-* remove missing values for weight and hindfoot length
-```
-surveys_complete <- surveys_raw %>% 
-	filter(species_id != "") %>% # remove missing species_id
-	filter(!is.na(weight)) %>%  # remove missing weight
-	filter(!is.na(hindfoot_length)) # remove missing hindfoot_length
-```
-* remove species with less than 10 counts
-```
-# count records per species 
-species_counts <- surveys_complete %>% 
-	group_by(species_id) %>%
-	tally
-head(species_counts)
-
-# get names of frequent species
-frequent_species <- species_counts %>% 
-	filter(n >= 10) %>%
-	select(species_id)
-	
-surveys_complete <- surveys_complete %>%
-	filter(species_id %in% 
-	frequent_species$species_id)
-```
-* make simple plot of hindfoot length as a function of weight
-`plot(x = surveys_complete$weight, y = surveys_complete$hindfoot_length)`
+* load data: `surveys_complete <- read_csv("data_output/surveys_complete.csv")`
 
 ### Plotting with ggplot2
+* make simple plot of hindfoot length as a function of weight
+`plot(x = surveys_complete$weight, y = surveys_complete$hindfoot_length)`
 * ggplot2 is a plotting package that helps create complex, publication quality plots with minimal effort
 * add layers of complexity to show data in the desired manner
 * bind plot to specific data frame:`ggplot(data = surveys_complete)`
@@ -60,15 +27,43 @@ surveys_complete <- surveys_complete %>%
 
 ### Modifying plots
 * add transparency: `ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + geom_point(alpha = 0.1)`
-* add color: `ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + geom_point(alpha = 0.1, color = "blue")`
+* assign plot to a variable: `surveys_plot <- ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length))`
+* draw plot: placement of + matters!
+```
+surveys_plot + 
+	geom_point()
+```
+
+### Building plots iteratively
+* define datasets, lay out axes, choose geom:
+```
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+    geom_point()
+```
+* add transparency:
+```
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1)
+```
+* add color: 
+```
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + 
+	geom_point(alpha = 0.1, color = "blue")`
+```
+* color by species:
+```
+ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1, aes(color = species_id))
+```
+* Challenge: Use what you just learned to create a scatter plot of weight over species_id with the plot types showing in different colors. Is this a good way to show this type of data?
 
 ### Boxplot
 * visualize distribution of weight within each species: `ggplot(data = surveys_complete, aes(x = species_id, y = weight)) + geom_boxplot()`
 * add points:
 ```
 ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
-	geom_jitter(alpha = 0.3, color = "tomato") +
-	geom_boxplot(alpha = 0)
+	geom_boxplot(alpha = 0) +
+	geom_jitter(alpha = 0.3, color = "tomato")
 ```
 * **Challenges:**
 	* Replace the box plot with a violin plot; see `geom_violin()`
@@ -91,80 +86,83 @@ yearly_counts <- surveys_complete %>%
 * split one plot into multiple plots based on a factor
 * plot one time series for each species separately: `ggplot(data = yearly_counts, aes(x = year, y = n, color = species_id)) + geom_line() + facet_wrap(~species_id)`
 * What if we wanted a separate line in each facet for male and female?
-* **Challenges:**
-	* filter the dataframe so that we only keep records with sex “F” or “M”s
-	```
-	sex_values = c("F", "M")
-	surveys_complete <- surveys_complete %>%
-		filter(sex %in% sex_values)
-	```
-	* group by year, species_id, sex
-	```
-	yearly_sex_counts <- surveys_complete %>%
-		group_by(year, species_id, sex) %>%
-		tally
-	```
-	* make faceted plit splitting further by sex (within single plot)
-	```
-	ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = species_id, group = sex)) +
-	geom_line() + facet_wrap(~ species_id)
-	```
-* change default background:
+* split the line in each plot by sex:
 ```
-ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = species_id, group = sex)) +
-geom_line() + facet_wrap(~ species_id) + theme_bw()
+yearly_sex_counts <- surveys_complete %>%
+                      group_by(year, species_id, sex) %>%
+                      tally()
 ```
-* color by sex instead of species:
-`ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex, group = sex)) + geom_line() + facet_wrap(~ species_id) + theme_bw()`
-* plot average weight of each species over the course of years
+* make faceted plot:
 ```
-yearly_weight <- surveys_complete %>%
-	group_by(year, species_id, sex) %>%
-	summarise(avg_weight = mean(weight, na.rm = TRUE))
-ggplot(data = yearly_weight, aes(x=year, y=avg_weight, color = species_id, group = species_id)) +
-	geom_line() + theme_bw()
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex)) +
+     geom_line() +
+     facet_wrap(~ species_id)
 ```
-* lines are in steps because of multiple values by year
-* make separate plots per sex since weight of males and females can differ a lot
+* change background:
 ```
-ggplot(data = yearly_weight, aes(x=year, y=avg_weight, color = species_id, group = species_id)) +
-	geom_line() + facet_wrap(~ sex) + theme_bw()
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex)) +
+     geom_line() +
+     facet_wrap(~ species_id) +
+     theme_bw() +
+     theme(panel.grid = element_blank())
 ```
+
+### Customization
+* compare how weights of males and females have changed over time:
+```
+# One column, facet by rows
+yearly_sex_weight <- surveys_complete %>%
+    group_by(year, sex, species_id) %>%
+    summarize(avg_weight = mean(weight))
+ggplot(data = yearly_sex_weight, aes(x = year, y = avg_weight, color = species_id)) +
+    geom_line() +
+    facet_grid(sex ~ .)
+```
+* one row, facet by column:
+```
+# One row, facet by column
+ggplot(data = yearly_sex_weight, aes(x = year, y = avg_weight, color = species_id)) +
+    geom_line() +
+    facet_grid(. ~ sex)
+```
+* change axes name:
+```
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex)) +
+    geom_line() +
+    facet_wrap(~ species_id) +
+    labs(title = "Observed species in time",
+         x = "Year of observation",
+         y = "Number of species") +
+    theme_bw()
+```
+* increase font size:
+```
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex)) +
+    geom_line() +
+    facet_wrap(~ species_id) +
+    labs(title = "Observed species in time",
+        x = "Year of observation",
+        y = "Number of species") +
+    theme_bw() +
+    theme(text=element_text(size = 16))
+```
+* change axes labels to 90 degree angles
+```
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex)) +
+    geom_line() +
+    facet_wrap(~ species_id) +
+    labs(title = "Observed species in time",
+        x = "Year of observation",
+        y = "Number of species") +
+    theme_bw() +
+    theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
+                        axis.text.y = element_text(colour = "grey20", size = 12),
+          text = element_text(size = 16))
+```
+* can also change fonts and save themes
+* save plot: `ggsave("fig_output/name_of_file.png", my_plot, width = 15, height = 10)`
 * other ways to improve:
 	* https://www.rstudio.com/wp-content/uploads/2015/08/ggplot2-cheatsheet.pdf
-* change axis names:
-```
-ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex, group = sex)) + geom_line() +
-	facet_wrap(~ species_id) +
-	labs(title = 'Observed species in time',
-		x = 'Year of observation',
-		y = 'Number of species') + theme_bw()
-```
-* change size and font of text:
-```
-ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex, group = sex)) + geom_line() +
-	facet_wrap(~ species_id) +
-	labs(title = 'Observed species in time',
-		x = 'Year of observation',
-		y = 'Number of species') 
-	theme(text=element_text(size=16, family="Arial")) + theme_bw()
-```
-* change x-axis orientation
-```
-ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex, group = sex)) + 	
-	geom_line() +
-	facet_wrap(~ species_id) +
-	theme_bw() +
-	theme(axis.text.x = element_text(colour="grey20", size=12, angle=90, hjust=.5, vj
-ust=.5),
-		axis.text.y = element_text(colour="grey20", size=12),
-		text=element_text(size=16, family="Arial")) + 
-	labs(title = 'Observed species in time',
-          x = 'Year of observation',
-          y = 'Number of species')
-```
-* save plot to file: `ggsave("observed_species_in_time.png", width=15, height=10)`
-	* file format included in file name, width and height can also be specified
 
 ## END CLASS
 * remove R history from dropbox (remind students to save first if they want it)

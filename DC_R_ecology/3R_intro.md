@@ -46,17 +46,6 @@
 	* bottom right: lots of things! file hierarchy, plots, packages, help
 	* everything can be resized or minimized
 
-### Functions and arguments
-* start modeling saving commands in R script and executing with keyboard shortcut into console
-* `#` is a comment in R; anything to the right on line not executed by console (just printed out)
-* link to other keyboard shortcuts 
-* functions are little programs in R that let you perform helpful tasks
-* `round(3.14159)`
-* learn what other options are available for this function: `args(round)`
-* fund more information: `?round`
-* apply this argument for this function: `round(3.14159, digits=2)`
-* names and order can be important: if not named, need to be in right order, if named, can put in any order: `round(digits=2, x=3.14159)`
-
 ### Organizing working directory
 * original data in `data/`
 * intermediate datasets in `data_output/`
@@ -70,7 +59,10 @@
 ## INTRO TO R
 * **Objectives**: expand knowledge of R syntax, objects/assignments, vector/data types
 
-### The R syntax
+### Creating objects in R
+* start modeling saving commands in R script and executing with keyboard shortcut into console
+* `#` is a comment in R; anything to the right on line not executed by console (just printed out)
+* link to other keyboard shortcuts 
 * type math in console: `3 + 5`
 * this prints the result to screen, not "remembered" by R
 * `weight_kg <- 55`
@@ -99,6 +91,15 @@ age  <- age - 20        # age?
 mass_index <- mass/age  # mass_index?
 ```
 * Answer: mass 95, age 102
+
+### Functions and arguments
+* functions are little programs in R that let you perform helpful tasks
+* `round(3.14159)`
+* learn what other options are available for this function: `args(round)`
+* fund more information: `?round`
+* apply this argument for this function: `round(3.14159, digits=2)`
+* names and order can be important: if not named, need to be in right order, if named, can put in any order: `round(digits=2, x=3.14159)`
+
 
 ### Vectors and data types
 * vector: basic data structure in R
@@ -140,6 +141,11 @@ mass_index <- mass/age  # mass_index?
 	* **Question**: Can you draw a diagram that represents the hierarchy of the data
   types?
 		* _Answer_: `logical --> numeric --> character <-- logical`
+
+### Conditional subsetting
+* `weight_g > 50    # will return logicals with TRUE for the indices that meet the condition`
+* `weight_g[weight_g > 50] # select only values above 50`
+* multiple tests: `weight_g[weight_g < 30 | weight_g > 50] # OR, can also use & for AND`
 
 ### Missing data
 * missing data are represented as NA in R
