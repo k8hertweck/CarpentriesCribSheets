@@ -70,7 +70,7 @@
 ### Data formats in spreadsheets
 * dates stored as integers
 
-###Exercise: export as CSV
+### Exercise: export as CSV
 
 ### Advantages of alternative formatting
 * YEAR, MONTH, DAY
