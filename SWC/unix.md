@@ -1,23 +1,21 @@
-##Software Carpentry Unix Instructor Crib Sheet
-####Oklahoma State University, May 2015
-####Kate L Hertweck, University of Texas at Tyler
+# Software Carpentry Unix Instructor Crib Sheet
 
-####Before class:
+## Before class:
 * set up shell:
   * enlarge text size
   * `export PS1='$ '`
   * `export PROMPT_COMMAND="history 1 >> ~/Dropbox/UnixHistory.txt"`
 * students check software installation: Unix, git (with XCode) and Python for Day 1
 
-**Intro to Software Carpentry:** http://swcarpentry.github.io/slideshows/introducing-software-carpentry/index.html#slide-0 
+**Intro to Software Carpentry:** http://swcarpentry.github.io/slideshows/introducing-software-carpentry/index.html#slide-0
 
 ####Checklist for class:
-* class website: http://ouinformatics.github.io/2015-05-27-osu 
+* class website: http://ouinformatics.github.io/2015-05-27-osu
 * etherpad: https://etherpad.mozilla.org/2015-05-27-osu
 * Kate's history: https://www.dropbox.com/s/femrf7if1swjno6/UnixHistory.txt?dl=0
 * review of pre-class survey
   * mixed audience, both novice/experienced and discplines
-  * if material is review for you, help by keeping notes on etherpad and helping your neighbor 
+  * if material is review for you, help by keeping notes on etherpad and helping your neighbor
   * scientific computing has a long history of being self taught, so most instructors even learn something new
 
 ####SETUP
@@ -32,7 +30,7 @@
 * terms: file, directory/folder
 * get data
   * http://swcarpentry.github.io/shell-novice/shell-novice-data.zip, move to Desktop, double click to unzip (if not already done), folder named “data”, can get there using: cd && cd Desktop/shell-novice/data
-  * cd, git clone https://github.com/ouinformatics/osu-data 
+  * cd, git clone https://github.com/ouinformatics/osu-data
 
 ####INTRODUCING THE SHELL
 **Objectives:** orient to shell and how it relates to the computer, understand the benefit of CLI
@@ -60,7 +58,7 @@
     * calculate statistics for each protein separately using program goostat
     * compare statistics for proteins using program called goodiff
     * write up results and submit by end of month
-  * if enters all commands by hand, will need to do 45,150 times. 
+  * if enters all commands by hand, will need to do 45,150 times.
   * What can she do instead?
 
 ####FILES AND DIRECTORIES
@@ -86,12 +84,12 @@
 * `ls` again folders in current directory
 * `cd data` change directory to data folder
 * `pwd`
-* `ls -F` 
-* `cd ..`  go up one level in file hierarchy 
+* `ls -F`
+* `cd ..`  go up one level in file hierarchy
   * `..` is special directory
   * can also use absolute paths
 * `ls -F -a` to see hidden files, including `.` and `..`
-* file organization: 
+* file organization:
   * `ls north-pacific-gyre/2012-07-03/`
   * tab completion
 * Challenge questions 1 and 2 through Socrative
@@ -133,12 +131,12 @@
 * `cp quotes.txt thesis/quotations.txt`
 * `ls quotes.txt thesis/quotations.txt`
 * `rm quotes.txt`, `ls quotes.txt thesis/quotations.txt`
-* Socrative questions 3 and 4 
+* Socrative questions 3 and 4
 
 ####PIPES AND FILTERS
 **Objectives:** redirect command output to file, construct pipelines
 
-* `ls molecules`, `cd molecules` 
+* `ls molecules`, `cd molecules`
 * `wc *.pdb`
   * word count: lines, words, characters
   * `*` is a wildcard, it matches anything (zero or more characters, there are others)
@@ -182,7 +180,7 @@
 * example looking at first three lines in each file
 ```
 for filename in basilisk.dat unicorn.dat
-  do 
+  do
     head -3 $filename
   done
 ```
@@ -196,7 +194,7 @@ for filename in basilisk.dat unicorn.dat
 for filename in *.dat
 do
 echo $filename
-head -100 $filename | tail -20 
+head -100 $filename | tail -20
 done
 ```
   * use of wildcard. what does echo do? why is this useful for loops?
@@ -213,14 +211,14 @@ done
 * Socrative questions 7 and 8
 
 ####SHELL SCRIPTS
-**Objectives:** write shell script to run command or series of commands for fixed set of files, run shell script from command line, write shell script to operate on set of files defined on command line, create pipelines including user-written shell scripts 
+**Objectives:** write shell script to run command or series of commands for fixed set of files, run shell script from command line, write shell script to operate on set of files defined on command line, create pipelines including user-written shell scripts
 
 * go back to molecules in nelle's directory
 * create file called `middle.sh` and add this command: `head -15 octane.pdb | tail -5`
 * `bash middle.sh`
-  * `.sh` means it's a shell script 
+  * `.sh` means it's a shell script
   * very important to make these in a text editor, rather than in word!
-* edit `middle.sh` and replace file name with `"$1"` 
+* edit `middle.sh` and replace file name with `"$1"`
   * quotations accommodates spaces in filenames
 * `bash middle.sh octane.pdb`, should get same output
   * try another file: `bash middle.sh pentane.pdb`
@@ -236,7 +234,7 @@ done
 * `wc -l “$@” | sort -n`
 * `bash sorted.sh *.pdb ../creatures/*.dat`
 * add comment!
-* save last few lines of history to file to remember how to do work again later: 
+* save last few lines of history to file to remember how to do work again later:
   * `history | tail -4 > redo-figure.sh`
   * `history | tail -5 | colrm 1 7` (1-7 characters)
 * nelle problem
@@ -245,7 +243,7 @@ done
 ```
 #calculate reduced stats for data files at J = 100 C/bp
   for datafile in “$@”
-    do 
+    do
       echo $datafile
       bash goostats -J 100 -r $datafile stats-$datafile
   done
