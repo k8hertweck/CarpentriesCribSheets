@@ -1,25 +1,10 @@
 # Software Carpentry Unix Instructor Crib Sheet
 
-## Before class:
-* set up shell:
+## Setup:
+* set up shell before class, share link in etherpad:
   * enlarge text size
   * `export PS1='$ '`
   * `export PROMPT_COMMAND="history 1 >> ~/Dropbox/UnixHistory.txt"`
-* students check software installation: Unix, git (with XCode) and Python for Day 1
-
-**Intro to Software Carpentry:** http://swcarpentry.github.io/slideshows/introducing-software-carpentry/index.html#slide-0
-
-####Checklist for class:
-* class website: http://ouinformatics.github.io/2015-05-27-osu
-* etherpad: https://etherpad.mozilla.org/2015-05-27-osu
-* Kate's history: https://www.dropbox.com/s/femrf7if1swjno6/UnixHistory.txt?dl=0
-* review of pre-class survey
-  * mixed audience, both novice/experienced and discplines
-  * if material is review for you, help by keeping notes on etherpad and helping your neighbor
-  * scientific computing has a long history of being self taught, so most instructors even learn something new
-
-####SETUP
-
 * slides: http://swcarpentry.github.io/shell-novice/motivation.html
 * most tasks in the shell can be done with mouse on Desktop. Why do anything differently?
 * motivation
@@ -30,9 +15,9 @@
 * terms: file, directory/folder
 * get data
   * http://swcarpentry.github.io/shell-novice/shell-novice-data.zip, move to Desktop, double click to unzip (if not already done), folder named “data”, can get there using: cd && cd Desktop/shell-novice/data
-  * cd, git clone https://github.com/ouinformatics/osu-data
+  * cd, git clone URL
 
-####INTRODUCING THE SHELL
+## INTRODUCING THE SHELL
 **Objectives:** orient to shell and how it relates to the computer, understand the benefit of CLI
 
 * what computers do:
@@ -43,12 +28,12 @@
 * terms:
   * command line interface: CLI
   * graphical user interface: GUI
-* how it works:
-  * you type something
-  * computer reads it
-  * executes command
-  * prints output
-  * use command shell to make this happen: this is the interface between user and computer
+* how it works: `whoami` and press enter
+  * finds program
+  * runs program
+  * displays program's output
+  * displays new prompt
+  * prompt: `$` indicates computer is ready to accept commands
 * bash: Bourne again shell, most commonly used, default on most modern implementations
 * example data:
   * our friend Nelle has six months worth of survey data collected from the North Pacific
@@ -61,15 +46,9 @@
   * if enters all commands by hand, will need to do 45,150 times.
   * What can she do instead?
 
-####FILES AND DIRECTORIES
+## FILES AND DIRECTORIES
 **Objectives:** paths, learn basic commands for working with files and directories, learn syntax of commands, tab-completion
 
-* prompt: `$` indicates computer is ready to accept commands
-* `whoami` press enter
-  * finds program
-  * runs program
-  * displays program's output
-  * displays new prompt
 * `pwd` print working directory, in this case it is also the home directory
 * root directory: holds everything else, begins with slash `/`
 * structure of directories: nested
@@ -79,10 +58,11 @@
 * `ls -F` adds trailing / to names of directories
   * spaces and capitalization in commands are important!
   * `-F` is an option, argument, or flag
-* `ls -F data` to list files within data
-* `ls -F /data` what is the difference here? this command will search the same directory in root, regardless of what working directory is
+* find additional options for the command: `ls --help`
+* `ls -F Desktop` to list files within data
+* `ls -F /Desktop` what is the difference here? this command will search the same directory in root, regardless of what working directory is
 * `ls` again folders in current directory
-* `cd data` change directory to data folder
+* `cd Desktop` change directory to data folder
 * `pwd`
 * `ls -F`
 * `cd ..`  go up one level in file hierarchy
@@ -96,7 +76,7 @@
   * teacher room: PAW5AYWM
   * start quiz, teacher paced, disable student names
 
-####CREATING THINGS
+## CREATING THINGS
 **Objectives:** create directory hierarchy that matches given diagram, create files, look in folders, delete folders
 
 * go back to Nelle's home directory (how?)
@@ -133,7 +113,7 @@
 * `rm quotes.txt`, `ls quotes.txt thesis/quotations.txt`
 * Socrative questions 3 and 4
 
-####PIPES AND FILTERS
+## PIPES AND FILTERS
 **Objectives:** redirect command output to file, construct pipelines
 
 * `ls molecules`, `cd molecules`
@@ -167,10 +147,10 @@
 * file marked with Z? outside naming convention, may contain missing data
   * `ls *Z.txt`
 * records note no depth recorded for these samples
-* may not want to remove, but will later select all other files using *[AB].txt
+* may not want to remove, but will later select all other files using `*[AB].txt`
 * Socrative questions 5 and 6
 
-####LOOPS
+## LOOPS
 **Objectives:** write loops that apply commands to series of files, trace values in loops, explain variables vs values, why spaces and punctuation shouldn't be used in file names, history, executing commands again
 
 * what if you wanted to perform the same commands over and over again on multiple files?
@@ -199,7 +179,7 @@ done
 ```
   * use of wildcard. what does echo do? why is this useful for loops?
 * write a for loop to resolve the original problem of creating a backup (copy of original data)
-  *strategy: `echo` command before running final, to make sure loop is functioning the way you expect
+  * strategy: `echo` command before running final, to make sure loop is functioning the way you expect
 * nelle's example:
   * `cd north-pacific-gyre/2012-07-03`
   * check: `for datafile in *[AB].txt; do; echo $datafile; done`
@@ -210,7 +190,7 @@ done
 * `history`: see old commands, find line number (repeat using !number)
 * Socrative questions 7 and 8
 
-####SHELL SCRIPTS
+## SHELL SCRIPTS
 **Objectives:** write shell script to run command or series of commands for fixed set of files, run shell script from command line, write shell script to operate on set of files defined on command line, create pipelines including user-written shell scripts
 
 * go back to molecules in nelle's directory
@@ -252,7 +232,7 @@ done
   * or just report `bash do-stats.sh *[AB].txt | wc -l`
 * Socrative question 9
 
-####FINDING THINGS
+## FINDING THINGS
 **Objectives:** grep to select lines in text which match patterns, find to find files whose names match patterns, nesting files, text vs binary files
 
 * move to writing subdirectory
@@ -283,5 +263,6 @@ done
 * today we've only talked about text files, what about images, databases, etc? those are binary (machine readable)
 * Socrative question 10
 
-####END CLASS
+## END CLASS
 * stop shell script output
+* ask for sticky note feedback
