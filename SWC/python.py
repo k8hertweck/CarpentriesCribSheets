@@ -222,3 +222,41 @@ fig.tight_layout()
 matplotlib.pyplot.show()
 
 ## Challenge:
+
+#### Repeating actions with loops ####
+
+# Objectives: write for loop to repeat simple actions, trace changes to variables
+
+# what if we wanted to print each character in a word on a line of its own?
+word = 'lead'
+print(word[0])
+print(word[1])
+print(word[2])
+print(word[3])
+# try a different word
+# this doesn't scale well, and is fragile (creates error if word is shorter, doesn't print all for longer word)
+
+# print with for loop
+for char in word:
+    print(char)
+# syntax:
+#   for variable in collection:
+#       do things using variable
+# note on choosing meaningful variable names
+
+# for loop that repeatedly updates variable
+length = 0 # define external variable
+for vowel in 'aeiou': # initialize for loop for string (not variable)
+    length = length + 1 # define continuously updated variable internal to loop
+print('There are', length, 'vowels') # report output at end of loop
+
+# loop variables still exist after loop ends!
+letter = 'z'
+for letter in 'abc':
+    print(letter)
+print('after the loop, letter is', letter)
+
+# finding length of a string is a built-in function!
+print(len('aeiou'))
+
+## Challenge:
