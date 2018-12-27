@@ -260,3 +260,93 @@ print('after the loop, letter is', letter)
 print(len('aeiou'))
 
 ## Challenge:
+
+#### Storing multiple values in lists ####
+
+# Objectives: create and index lists of simple values, change values of elements, append to list, reorder and slice lists, create and manipulate nested lists
+
+# create a list
+odds = [1, 3, 5, 7]
+# recall list
+print('odds are:', odds)
+# select individual elements via indexing
+print('first and last:', odds[0], odds[-1])
+# loop over list
+for number in odds:
+    print(number)
+# you can change values in a list (but not individual characters in a string)
+# list example
+names = ['Curie', 'Darwing', 'Turing']  # typo in Darwin's name
+print('names is originally:', names)
+names[1] = 'Darwin'  # correct the name
+print('final value of names:', names)
+# string example
+name = 'Darwin'
+name[0] = 'd'
+
+# two variables can refer to the same list; modifying one modifies both!
+salsa = ['peppers', 'onions', 'cilantro', 'tomatoes']
+my_salsa = salsa        # <-- my_salsa and salsa point to the *same* list data in memory
+salsa[0] = 'hot peppers'
+print('Ingredients in my salsa:', my_salsa)
+
+# a better way is to make a copy of the original list
+salsa = ['peppers', 'onions', 'cilantro', 'tomatoes']
+my_salsa = list(salsa)        # <-- makes a *copy* of the list
+salsa[0] = 'hot peppers'
+print('Ingredients in my salsa:', my_salsa)
+
+# lists can contain other lists
+x = [['pepper', 'zucchini', 'onion'],
+     ['cabbage', 'lettuce', 'garlic'],
+     ['apple', 'pear', 'banana']]
+# print first row
+print([x[0]])
+print(x[0])
+# print first item in first row
+print(x[0][0])
+
+# lists can contain elements of different types
+sample_ages = [10, 12.5, 'Unknown']
+
+# append to the list
+odds.append(11)
+print('odds after adding a value:', odds)
+
+# remove first element
+del odds[0]
+print('odds after removing the first element:', odds)
+
+# reverse the list
+odds.reverse()
+print('odds after reversing:', odds)
+
+# slicing lists
+binomial_name = "Drosophila melanogaster"
+group = binomial_name[0:10]
+print("group:", group)
+
+species = binomial_name[11:24]
+print("species:", species)
+
+chromosomes = ["X", "Y", "2", "3", "4"]
+autosomes = chromosomes[2:5]
+print("autosomes:", autosomes)
+
+last = chromosomes[-1]
+print("last:", last)
+
+# omit the first or last range to indicate the start or end
+date = "Monday 4 January 2016"
+day = date[0:6]
+print("Using 0 to begin range:", day)
+day = date[:6]
+print("Omitting beginning index:", day)
+
+months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+sond = months[8:12]
+print("With known last position:", sond)
+sond = months[8:len(months)]
+print("Using len() to get last entry:", sond)
+sond = months[8:]
+print("Omitting ending index:", sond)
