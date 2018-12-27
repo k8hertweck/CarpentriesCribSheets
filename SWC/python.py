@@ -74,6 +74,8 @@ weight_kg = 65.0
 print('weight in kilograms is now:', weight_kg)
 # variable names as sticky notes (analogy)
 
+## Challenge:
+
 # libraries: describe what they are
 # load library
 import numpy
@@ -129,6 +131,8 @@ tripledata = doubledata + data
 print('tripledata:')
 print(tripledata[:3, 36:])
 
+## Challenge:
+
 # perform calculation across entire array
 print(numpy.mean(data)) # find mean
 
@@ -158,4 +162,63 @@ print(numpy.mean(data, axis=0).shape)
 # average across all columns (axis 1)
 print(numpy.mean(data, axis=1))
 
+## Challenge:
+
 #### Visualizing data ####
+
+# make pylot available from matplotlib (de facto plotting library)
+import matplotlib.pyplot
+# allow plots to appear when using show()
+%matplotlib inline # % only applies to functions valid in notebook environment
+
+# make heatmap from data
+image = matplotlib.pyplot.imshow(data)
+matplotlib.pyplot.show()
+
+# plot average inflammation over time
+ave_inflammation = numpy.mean(data, axis=0)
+ave_plot = matplotlib.pyplot.plot(ave_inflammation)
+matplotlib.pyplot.show()
+
+# plot max over time
+max_plot = matplotlib.pyplot.plot(numpy.max(data, axis=0))
+matplotlib.pyplot.show()
+
+# plot min over time
+min_plot = matplotlib.pyplot.plot(numpy.min(data, axis=0))
+matplotlib.pyplot.show()
+
+# grouping plots: complete set of code
+
+# load libraries
+import numpy
+import matplotlib.pyplot
+
+# load data from file
+data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+
+# create space to place plot
+fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0)) # state dimensions of figure
+
+# add subplots, parameters are number of subplots, number of columns, which subplot (left-to-right, top-to-bottom)
+axes1 = fig.add_subplot(1, 3, 1)
+axes2 = fig.add_subplot(1, 3, 2)
+axes3 = fig.add_subplot(1, 3, 3)
+
+# title axes
+axes1.set_ylabel('average')
+axes1.plot(numpy.mean(data, axis=0))
+
+axes2.set_ylabel('max')
+axes2.plot(numpy.max(data, axis=0))
+
+axes3.set_ylabel('min')
+axes3.plot(numpy.min(data, axis=0))
+
+# spread out graphs
+fig.tight_layout()
+
+# show plot
+matplotlib.pyplot.show()
+
+## Challenge:
