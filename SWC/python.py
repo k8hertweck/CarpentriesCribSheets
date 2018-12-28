@@ -388,3 +388,75 @@ for f in filenames:
 
     fig.tight_layout()
     matplotlib.pyplot.show()
+
+## Challenge:
+
+#### Making choices ####
+
+# Objectives: write conditional statements including if, elif, else; evaluate expressions containing and and or
+
+# tell python to take different actions with if statements
+num = 37
+if num > 100:
+    print('greater')
+else:
+    print('not greater')
+print('done')
+
+# don't need else; can also do nothing
+num = 53
+print('before conditional...')
+if num > 100:
+    print(num,' is greater than 100')
+print('...after conditional')
+
+# can have multiple alternatives using elif
+num = -3
+
+if num > 0:
+    print(num, 'is positive')
+elif num == 0: # double equal sign is necessary; single used to assign values
+    print(num, 'is zero')
+else:
+    print(num, 'is negative')
+
+# combine tests using and, when both parts must be true
+if (1 > 0) and (-1 > 0):
+    print('both parts are true')
+else:
+    print('at least one part is false')
+
+# combine tests using or if at least one part must be true
+if (1 < 0) or (-1 < 0):
+    print('at least one test is true')
+
+# checking for problems in inflammation data
+import numpy # if not already done
+
+# check if max inflammation equals day number (error in data entry)
+max_inflammation_0 = numpy.max(data, axis=0)[0]
+max_inflammation_20 = numpy.max(data, axis=0)[20]
+
+if max_inflammation_0 == 0 and max_inflammation_20 == 20:
+    print('Suspicious looking maxima!')
+
+# check if mins are all zero (healthy patient)
+if numpy.sum(numpy.min(data, axis=0)) == 0:
+    print('Minima add up to zero!')
+
+# combine together with data
+data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+
+max_inflammation_0 = numpy.max(data, axis=0)[0]
+max_inflammation_20 = numpy.max(data, axis=0)[20]
+
+if max_inflammation_0 == 0 and max_inflammation_20 == 20:
+    print('Suspicious looking maxima!')
+elif numpy.sum(numpy.min(data, axis=0)) == 0:
+    print('Minima add up to zero!')
+else:
+    print('Seems OK!')
+
+# test on another dataset
+
+## Challenge:
