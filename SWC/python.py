@@ -221,8 +221,6 @@ print(numpy.mean(data, axis=0).shape)
 # average across all columns (axis 1): avg inflammation per day for all patients
 print(numpy.mean(data, axis=1))
 
-## Challenge: 
-
 #### Visualizing data ####
 
 # make pylot available from matplotlib (de facto plotting library)
@@ -319,6 +317,10 @@ axes3.set_ylabel('min')
 axes3.plot(min_data)
 axes3.set_ylim(numpy.min(min_data), numpy.max(min_data) * 1.1)
 
+## Wrap up:
+# some of our data appears suspicious (avg, max, and min has odd pattern)
+# we want to re-run for all our datasets
+
 #### Repeating actions with loops ####
 
 # Objectives: write for loop to repeat simple actions, trace changes to variables
@@ -355,19 +357,26 @@ print('after the loop, letter is', letter)
 # finding length of a string is a built-in function!
 print(len('aeiou'))
 
-## Challenge:
+## Challenge: Exponentiation is built into Python:
+print(5 ** 3)
+# Write a  loop that calculates the same result as 5 ** 3 using multiplication (and without exponentiation).
+result = 1
+for i in range(0, 3):
+    result = result * 5
+print(result)
 
 #### Storing multiple values in lists ####
 
 # Objectives: create and index lists of simple values, change values of elements, append to list, reorder and slice lists, create and manipulate nested lists
 
+# a list if a way to store many values
 # create a list
 odds = [1, 3, 5, 7]
 # recall list
 print('odds are:', odds)
 # select individual elements via indexing
 print('first and last:', odds[0], odds[-1])
-# loop over list
+# loop over list (loop variable is assigned to elements one at a time)
 for number in odds:
     print(number)
 # you can change values in a list (but not individual characters in a string)
@@ -378,7 +387,7 @@ names[1] = 'Darwin'  # correct the name
 print('final value of names:', names)
 # string example
 name = 'Darwin'
-name[0] = 'd'
+#name[0] = 'd'
 
 # two variables can refer to the same list; modifying one modifies both!
 salsa = ['peppers', 'onions', 'cilantro', 'tomatoes']
@@ -417,6 +426,28 @@ print('odds after removing the first element:', odds)
 odds.reverse()
 print('odds after reversing:', odds)
 
+# demo: making a list and attempting to copy/modify in place is a bad idea!
+odds = [1, 3, 5, 7]
+primes = odds
+primes.append(2)
+print('primes:', primes)
+print('odds:', odds)
+# python stores a list in memory, and then can use multiple names to refer to the same list
+
+# to copy a simple list, use list function
+odds = [1, 3, 5, 7]
+primes = list(odds)
+primes.append(2)
+print('primes:', primes)
+print('odds:', odds)
+
+## Challenge: Use a for-loop to convert the string “hello” into a list of letters: ["h", "e", "l", "l", "o"]
+# Hint: you can create an empty list with: my_list = []
+my_list = []
+for char in "hello":
+    my_list.append(char)
+print(my_list)
+
 # slicing lists
 binomial_name = "Drosophila melanogaster"
 group = binomial_name[0:10]
@@ -432,13 +463,28 @@ print("autosomes:", autosomes)
 last = chromosomes[-1]
 print("last:", last)
 
-# omit the first or last range to indicate the start or end
+## Challenge: Use slicing to access only the last four characters of a string or entries of a list.
+string_for_slicing = "Observation date: 02-Feb-2013"
+list_for_slicing = [["fluorine", "F"],
+                    ["chlorine", "Cl"],
+                    ["bromine", "Br"],
+                    ["iodine", "I"],
+                    ["astatine", "At"]]
+# Expected result:
+#   "2013"
+#   [["chlorine", "Cl"], ["bromine", "Br"], ["iodine", "I"], ["astatine", "At"]]
+string_for_slicing[-4:]
+list_for_slicing[-4:]
+
+# take a slice from the beginning of the sequence
+# omit the first range to indicate the start
 date = "Monday 4 January 2016"
 day = date[0:6]
 print("Using 0 to begin range:", day)
 day = date[:6]
 print("Omitting beginning index:", day)
 
+# omit the last range to indicate the end
 months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
 sond = months[8:12]
 print("With known last position:", sond)
@@ -446,6 +492,12 @@ sond = months[8:len(months)]
 print("Using len() to get last entry:", sond)
 sond = months[8:]
 print("Omitting ending index:", sond)
+
+## Challenge: + usually means addition, but when used on strings or lists, it means “concatenate”. Given that, what do you think the multiplication operator * does on lists? In particular, what will be the output of the following code?
+counts = [2, 4, 6, 8, 10]
+repeats = counts * 2
+print(repeats)
+# [2, 4, 6, 8, 10, 2, 4, 6, 8, 10]: the multiplication operator * used on a list replicates elements of the list and concatenates them together and is equivalent to: counts + counts
 
 #### Analyzing data from multiple files ####
 
