@@ -505,14 +505,14 @@ print(repeats)
 import glob
 
 # get names of all csv files in current directory
-print(glob.glob('inflammation*.csv'))
+print(glob.glob('data/inflammation*.csv'))
 
 # combine previous content together and analyze all files
 
 import numpy
 import matplotlib.pyplot
 
-filenames = sorted(glob.glob('inflammation*.csv'))
+filenames = sorted(glob.glob('data/inflammation*.csv'))
 filenames = filenames[0:3]
 for f in filenames:
     print(f)
@@ -537,7 +537,23 @@ for f in filenames:
     fig.tight_layout()
     matplotlib.pyplot.show()
 
-## Challenge:
+## Challenge: Plot the difference between the average of the first dataset and the average of the second dataset, i.e., the difference between the leftmost plot of the first two figures.
+import glob
+import numpy
+import matplotlib.pyplot
+
+filenames = sorted(glob.glob('data/inflammation*.csv'))
+
+data0 = numpy.loadtxt(fname=filenames[0], delimiter=',')
+data1 = numpy.loadtxt(fname=filenames[1], delimiter=',')
+
+fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
+
+matplotlib.pyplot.ylabel('Difference in average')
+matplotlib.pyplot.plot(numpy.mean(data0, axis=0) - numpy.mean(data1, axis=0))
+
+fig.tight_layout()
+matplotlib.pyplot.show()
 
 #### Making choices ####
 
@@ -577,6 +593,16 @@ else:
 # combine tests using or if at least one part must be true
 if (1 < 0) or (-1 < 0):
     print('at least one test is true')
+# true and false are booleans
+
+## Challenge: What do you expect to get from this code?
+if 4 > 5:
+    print('A')
+elif 4 == 5:
+    print('B')
+elif 4 < 5:
+    print('C')
+# C gets printed because the first two conditions, 4 > 5 and 4 == 5, are not true, but 4 < 5 is true.
 
 # checking for problems in inflammation data
 import numpy # if not already done
@@ -605,6 +631,15 @@ elif numpy.sum(numpy.min(data, axis=0)) == 0:
 else:
     print('Seems OK!')
 
-# test on another dataset
-
 ## Challenge:
+# Write a loop that counts the number of vowels in a character string.
+# Test it on a few individual words and full sentences.
+# Once you are done, compare your solution to your neighbor’s. Did you make the same decisions about how to handle the letter ‘y’ (which some people think is a vowel, and some do not)?
+vowels = 'aeiouAEIOU'
+sentence = 'Mary had a little lamb.'
+count = 0
+for char in sentence:
+    if char in vowels:
+        count += 1
+
+print("The number of vowels in this string is " + str(count))
