@@ -23,12 +23,38 @@
 
 #### Setup ####
 
-# lessons using Jupyter (ipython) notebooks
-# orientation to notebook
-#   terminal window, should start from directory with data and launch python, then ipython, then ipython notebook
-# create new notebook
-# go through orientation
-# saving and sharing with other people
+# many ways to interact with Python
+#   python in terminal
+#   ipython in terminal
+#   save script in text editor
+#   IDE like spyder
+#   notebook: web application that combines code, graphs, and text
+#   interactive mode in terminal, chevrons (>>>) is prompt, waiting for input
+#   scripting mode: save commands in file (ends in .py), execute entire file at once
+# about our tools
+#   Anaconda: distribution (way of obtaining) Python;
+#       includes extra packages like ipython, spyder
+#   conda: package manager that comes with Anaconda, installs/updates packages
+#   jupyter notebook: installed with Anaconda
+
+# setting up jupyter project
+#   launch Jupyter Notebook from Anaconda
+#   terminal window must stay open, this is kernel (running python)
+#   web browser is how you interact with notebook
+#   create project directory (new folder), rename, then move into it
+#   click "New" in upper right hand, then select "Python3"
+#   creates notebook (*.ipynb, or ipython notebook file)
+#   autosaves, or can save manually
+#   click on title to rename
+# executing code in a jupyter notebook:
+#   enter code in cell and execute by pressing Shift + Return/enter
+#   output is printed directly below cell, prefaced by Out[ ]:
+#   add new cell with + button
+#   can add Markdown cells with nicely formatted text
+#   comments prefaced with # (not read/executed by python)
+#   commands and output saved in notebook
+#   talk about other menu options and buttons to remove/add/run cells
+#   example notebook: https://github.com/rasilab/machkovech_2018/blob/master/scripts/NA43_competition.ipynb
 
 #### Analyzing patient data ####
 
