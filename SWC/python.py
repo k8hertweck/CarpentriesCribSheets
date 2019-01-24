@@ -4,20 +4,22 @@
 
 #### Before class ####
 
-# ipython notebook located in Dropbox folder, share link to .pynb with students so they can keep track
-# enlarge text size
+# ipython notebook located in Dropbox folder, render in nbviewer, share link to latter so students can follow along (and download notebook)
 # check software installation: Python v 3.X (Anaconda)
 
 #### Objectives ####
 
-# slides: http://swcarpentry.github.io/python-novice-inflammation/motivation.html
 # why python?
 #   We're teaching you how to program, and we have to use something
 #   free, well documented, and everyone can run it
 #   large userbase
 #   easy for novices to learn
-# data: CSV, comma separated values
-# motivation: load data into memory, calculate average inflammation per day across all patients
+#   super popular on campus!
+# motivation: inflammation in patients who have been given new treatment for arthritis
+#   load data into memory, calculate average inflammation per day across all patients, plot to share info with colleagues
+#   data: CSV, comma separated values
+#   rows contain information for a single patient (observations)
+#   columns represent measurements on successive days
 
 #### Setup ####
 
