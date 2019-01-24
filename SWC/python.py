@@ -83,6 +83,7 @@ weight_kg = 60.0
 # to create string
 weight_kg_text = 'weight in kilograms:'
 
+# using variables
 # display value of variable
 print(weight_kg)
 # print is a function
@@ -99,9 +100,19 @@ weight_kg = 65.0
 print('weight in kilograms is now:', weight_kg)
 # variable names as sticky notes (analogy)
 
-## Challenge:
+## Challenge: What values do the variables mass and age have after each statement in the following program? Test your answers by executing the commands.
+mass = 47.5
+age = 122
+mass = mass * 2.0
+age = age - 20
+print(mass, age)
 
-# libraries: describe what they are
+## Challenge: What does the following program print out?
+first, second = 'Grace', 'Hopper'
+third, fourth = second, first
+print(third, fourth)
+
+# libraries: collections of additional code that provide more functionality to perform specific tasks
 # load library
 import os
 import urllib.request
@@ -134,7 +145,7 @@ print(type(data))
 print(data.dtype)
 # show shape of data
 print(data.shape)
-# output is rows, columns
+# output is rows, columns; rows are the individual patients, and the columns are their daily inflammation measurements
 # arrays have members, or attributes, which use the dot nomenclature because they have the same part-and-whole relationship
 
 # access a specific value
@@ -165,7 +176,20 @@ tripledata = doubledata + data
 print('tripledata:')
 print(tripledata[:3, 36:])
 
-## Challenge:
+## Challenge: We can slice character strings as well! Given the following:
+element = 'oxygen'
+print('first three characters:', element[0:3])
+print('last three characters:', element[3:6])
+# What is the value of element[:4]? What about element[4:]? Or element[:]?
+element[4:]
+element[:]
+
+## Challenge: What is element[-1]? What is element[-2]?
+element[-1]
+element[-2]
+
+# Given those answers, explain what element[1:-1] does.
+# Creates a substring from index 1 up to (not including) the final index, effectively removing the first and last letters from ‘oxygen’
 
 # perform calculation across entire array
 print(numpy.mean(data)) # find mean
@@ -182,6 +206,7 @@ print('standard deviation:', stdval)
 #   select a function or attribute and add question mark to find help documentation
 #   help(thing.attribute) is same as above
 
+# view max inflammation per patient or per day
 # create temporary array for data desired
 patient_0 = data[0, :] # 0 on the first axis (rows), everything on the second (columns)
 print('maximum inflammation for patient 0:', numpy.max(patient_0))
@@ -193,17 +218,17 @@ print('maximum inflammation for patient 2:', numpy.max(data[2, :]))
 print(numpy.mean(data, axis=0))
 # confirm shape of array
 print(numpy.mean(data, axis=0).shape)
-# average across all columns (axis 1)
+# average across all columns (axis 1): avg inflammation per day for all patients
 print(numpy.mean(data, axis=1))
 
-## Challenge:
+## Challenge: 
 
 #### Visualizing data ####
 
 # make pylot available from matplotlib (de facto plotting library)
 import matplotlib.pyplot
 # allow plots to appear when using show()
-%matplotlib inline # % only applies to functions valid in notebook environment
+%matplotlib inline
 
 # make heatmap from data
 image = matplotlib.pyplot.imshow(data)
@@ -220,6 +245,10 @@ matplotlib.pyplot.show()
 
 # plot min over time
 min_plot = matplotlib.pyplot.plot(numpy.min(data, axis=0))
+matplotlib.pyplot.show()
+
+## Challenge: Create a plot showing the standard deviation (numpy.std) of the inflammation data for each day across all patients.
+std_plot = matplotlib.pyplot.plot(numpy.std(data, axis=0))
 matplotlib.pyplot.show()
 
 # grouping plots: complete set of code
@@ -255,7 +284,40 @@ fig.tight_layout()
 # show plot
 matplotlib.pyplot.show()
 
-## Challenge:
+## Challenge: Modify the program to display the three plots on top of one another instead of side by side.
+import numpy
+import matplotlib.pyplot
+
+data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+
+# change figsize (swap width and height)
+fig = matplotlib.pyplot.figure(figsize=(3.0, 10.0))
+
+# change add_subplot (swap first two parameters)
+axes1 = fig.add_subplot(3, 1, 1)
+axes2 = fig.add_subplot(3, 1, 2)
+axes3 = fig.add_subplot(3, 1, 3)
+
+axes1.set_ylabel('average')
+axes1.plot(numpy.mean(data, axis=0))
+
+axes2.set_ylabel('max')
+axes2.plot(numpy.max(data, axis=0))
+
+axes3.set_ylabel('min')
+axes3.plot(numpy.min(data, axis=0))
+
+fig.tight_layout()
+
+matplotlib.pyplot.show()
+
+## Challenge: How would you alter the limits on the x and y axes?
+axes3.set_ylim(0,6)
+# A more automated approach
+min_data = numpy.min(data, axis=0)
+axes3.set_ylabel('min')
+axes3.plot(min_data)
+axes3.set_ylim(numpy.min(min_data), numpy.max(min_data) * 1.1)
 
 #### Repeating actions with loops ####
 
