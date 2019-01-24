@@ -22,9 +22,6 @@
 #### Setup ####
 
 # lessons using Jupyter (ipython) notebooks
-# get data (if not already done):
-#   http://swcarpentry.github.io/shell-novice/shell-novice-data.zip, move to Desktop, double click to unzip (if not already done), folder named “data”, can get there using: cd && cd Desktop/shell-novice/data
-#   cd, git clone https://github.com/ouinformatics/osu-data
 # orientation to notebook
 #   terminal window, should start from directory with data and launch python, then ipython, then ipython notebook
 # create new notebook
@@ -78,7 +75,19 @@ print('weight in kilograms is now:', weight_kg)
 
 # libraries: describe what they are
 # load library
+import os
+import urllib.request
+import zipfile
 import numpy
+
+# download data
+urllib.request.urlretrieve("http://swcarpentry.github.io/python-novice-inflammation/data/python-novice-inflammation-data.zip", "python-novice-inflammation-data.zip")
+urllib.request.urlretrieve("http://swcarpentry.github.io/python-novice-inflammation/data/python-novice-inflammation-code.zip", "python-novice-inflammation-code.zip")
+# unzip data
+zipData = ZipFile('python-novice-inflammation-data.zip')
+zipData.extractall()
+zipCode = ZipFile('python-novice-inflammation-code.zip')
+zipData.extractall()
 
 # load data into python (using library)
 numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
