@@ -2,3 +2,5 @@
 */.DS_store
 */*.pdf
 */*.odt
+data/*
+python-novice-inflammation-data.zip

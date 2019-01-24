@@ -82,15 +82,12 @@ import numpy
 
 # download data
 urllib.request.urlretrieve("http://swcarpentry.github.io/python-novice-inflammation/data/python-novice-inflammation-data.zip", "python-novice-inflammation-data.zip")
-urllib.request.urlretrieve("http://swcarpentry.github.io/python-novice-inflammation/data/python-novice-inflammation-code.zip", "python-novice-inflammation-code.zip")
 # unzip data
-zipData = ZipFile('python-novice-inflammation-data.zip')
-zipData.extractall()
-zipCode = ZipFile('python-novice-inflammation-code.zip')
+zipData = zipfile.ZipFile('python-novice-inflammation-data.zip')
 zipData.extractall()
 
 # load data into python (using library)
-numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+numpy.loadtxt(fname='data/inflammation-01.csv', delimiter=',')
 # numpy.loadtxt(...) is a function call
 #   run function loadtxt
 #   belongs to numpy library
@@ -100,7 +97,7 @@ numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
 #   delimiter
 
 # assign data to variable (so we can recall it later)
-data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+data = numpy.loadtxt(fname='data/inflammation-01.csv', delimiter=',')
 # show the variable's value
 print(data)
 # what type of thing is data?
@@ -204,7 +201,7 @@ import numpy
 import matplotlib.pyplot
 
 # load data from file
-data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+data = numpy.loadtxt(fname='data/inflammation-01.csv', delimiter=',')
 
 # create space to place plot
 fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0)) # state dimensions of figure
