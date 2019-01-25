@@ -777,6 +777,45 @@ def offset_mean(data, target_mean_value):
 help(offset_mean)
 
 # defining defaults
+# pass the filename to loadtxt without the fname=
+numpy.loadtxt('inflammation-01.csv', delimiter=',')
+# delimiter needs to be there!
+numpy.loadtxt('inflammation-01.csv', ',')
 
+# redefine offset mean
+def offset_mean(data, target_mean_value=0.0):
+    '''Return a new array containing the original data with its mean offset to match the
+       desired value (0 by default).
+    Example: offset_mean([1, 2, 3], 0) => [-1, 0, 1]'''
+    return (data - numpy.mean(data)) + target_mean_value
+
+# can still call function with two arguments
+test_data = numpy.zeros((2, 2))
+print(offset_mean(test_data, 3))
+
+# call it with just one parameter, target_mean_value automatically assigned the default value of 0.0
+more_data = 5 + numpy.zeros((2, 2))
+print('data before mean offset:')
+print(more_data)
+print('offset data:')
+print(offset_mean(more_data))
+
+# how Python matches values to parameters:
+def display(a=1, b=2, c=3):
+    print('a:', a, 'b:', b, 'c:', c)
+
+print('no parameters:')
+display()
+print('one parameter:')
+display(55)
+print('two parameters:')
+display(55, 66)
+
+# override behavior by naming value as it's passed
+print('only setting the value of c')
+display(c=77)
 
 # readable functions
+# show example: http://swcarpentry.github.io/python-novice-inflammation/06-func/index.html
+
+## Challenge: Return vs print
